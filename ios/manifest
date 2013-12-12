@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0
+apiversion: 2
+description: Monitoring geo regions
+author: Jon Alter
+license: Appcelerator Commercial License 
+copyright: Copyright (c) 2013 by Appcelerator, Inc.
+
+
+# these should not be edited
+name: geofence
+moduleid: ti.geofence
+guid: 5538c20b-3d6a-4eda-a9f7-0d132275cede
+platform: iphone
+minsdk: 3.1.3.GA
