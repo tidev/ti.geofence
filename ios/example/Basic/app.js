@@ -5,36 +5,10 @@
 
 var osname = Ti.Platform.osname,
     ANDROID = (osname === 'android'),
-    IOS = (osname === 'iphone' || osname === 'ipad');
+    IOS = (osname === 'iphone' || osname === 'ipad'),
+    defaultFontSize = ANDROID ? '16dp' : 14;
 
 var rows = [
-    {
-        title: 'isGooglePlayServicesAvailable() (Android)',
-        onClick: function(){
-            logInApp('isGooglePlayServicesAvailable: ' + Geofence.isGooglePlayServicesAvailable());
-        }
-    },
-    {
-        title: 'Constants (Android)',
-        onClick: function(){
-            logInApp('SUCCESS: ' + Geofence.SUCCESS);
-            logInApp('SERVICE_MISSING: ' + Geofence.SERVICE_MISSING);
-            logInApp('SERVICE_VERSION_UPDATE_REQUIRED: ' + Geofence.SERVICE_VERSION_UPDATE_REQUIRED);
-            logInApp('SERVICE_DISABLED: ' + Geofence.SERVICE_DISABLED);
-            logInApp('SERVICE_INVALID: ' + Geofence.SERVICE_INVALID);
-
-            logInApp('LOCATION_STATUS_ERROR: ' + Geofence.LOCATION_STATUS_ERROR);
-            logInApp('LOCATION_STATUS_GEOFENCE_NOT_AVAILABLE: ' + Geofence.LOCATION_STATUS_GEOFENCE_NOT_AVAILABLE);
-            logInApp('LOCATION_STATUS_GEOFENCE_TOO_MANY_GEOFENCES: ' + Geofence.LOCATION_STATUS_GEOFENCE_TOO_MANY_GEOFENCES);
-            logInApp('LOCATION_STATUS_GEOFENCE_TOO_MANY_PENDING_INTENTS: ' + Geofence.LOCATION_STATUS_GEOFENCE_TOO_MANY_PENDING_INTENTS);
-        }
-    },
-    {
-        title: 'regionMonitoringAvailable() (iOS)',
-        onClick: function(){
-            logInApp('regionMonitoringAvailable: ' + Geofence.regionMonitoringAvailable());
-        }
-    },
     {
         title: 'createRegion()',
         onClick: function(){
@@ -50,24 +24,6 @@ var rows = [
         }
     },
     {
-        title: 'containsCoordinate() (iOS)',
-        onClick: function(){
-            var region = Geofence.createRegion({
-                center: { 
-                    latitude:37.389601,
-                    longitude:-122.050169
-                },
-                radius:10,
-                identifier:'Appcelerator'
-            });
-            // Should be true
-            logInApp('containsCoordinate: ' + region.containsCoordinate({
-                latitude:37.388657,
-                longitude:-122.050831
-            }));
-        }
-    },
-    {
         title: 'startMonitoringForRegions() I280',
         onClick: function(){
             logInApp('startMonitoringForRegions() I280');
@@ -76,7 +32,7 @@ var rows = [
                     latitude:37.335275,
                     longitude:-122.032547
                 },
-                radius:500.0,
+                radius:500.0, // meters
                 identifier:'Test1'
             });
             var region2 = Geofence.createRegion({
@@ -84,7 +40,7 @@ var rows = [
                     latitude:37.371173,
                     longitude:-122.142763
                 },
-                radius:1000,
+                radius:1000, // meters
                 identifier:'Test2'
             });
             Geofence.startMonitoringForRegions([region, region2]);
@@ -100,7 +56,7 @@ var rows = [
                     latitude:37.389601,
                     longitude:-122.050169
                 },
-                radius:20,
+                radius:20, // meters
                 identifier:'Appcelerator'
             });
             Geofence.startMonitoringForRegions(appc);
@@ -115,7 +71,7 @@ var rows = [
                     latitude:37.335275,
                     longitude:-122.032547
                 },
-                radius:500,
+                radius:2000,
                 identifier:'Test1'
             });
             var region2 = Geofence.createRegion({
@@ -123,7 +79,7 @@ var rows = [
                     latitude:37.371173,
                     longitude:-122.142763
                 },
-                radius:1000,
+                radius:3000,
                 identifier:'Test2'
             });
             Geofence.stopMonitoringForRegions([region, region2]);
@@ -135,14 +91,73 @@ var rows = [
             logInApp('stopMonitoringAllRegions()');
             Geofence.stopMonitoringAllRegions();
         }
-    },
-    {
-        title: 'monitoredRegions (iOS)',
-        onClick: function(){
-            logInApp('monitoredRegions length: ' + Geofence.monitoredRegions.length);
-        }
     }
 ];
+
+// iOS only methods
+if (IOS) {
+    var iosRows = [
+        {
+            title: 'regionMonitoringAvailable() (iOS)',
+            onClick: function(){
+                logInApp('regionMonitoringAvailable: ' + Geofence.regionMonitoringAvailable());
+            }
+        },
+        {
+            title: 'containsCoordinate() (iOS)',
+            onClick: function(){
+                var region = Geofence.createRegion({
+                    center: { 
+                        latitude:37.389601,
+                        longitude:-122.050169
+                    },
+                    radius:50,
+                    identifier:'Appcelerator'
+                });
+                // Should be true
+                logInApp('containsCoordinate: ' + region.containsCoordinate({
+                    latitude:37.389610,
+                    longitude:-122.050170
+                }));
+            }
+        },
+        {
+            title: 'monitoredRegions (iOS)',
+            onClick: function(){
+                logInApp('monitoredRegions length: ' + Geofence.monitoredRegions.length);
+            }
+        }
+    ];
+    rows = rows.concat(iosRows);
+}
+
+// Android only methods
+if (ANDROID) {
+    var androidRows = [
+        {
+            title: 'isGooglePlayServicesAvailable() (Android)',
+            onClick: function(){
+                logInApp('isGooglePlayServicesAvailable: ' + Geofence.isGooglePlayServicesAvailable());
+            }
+        },
+        {
+            title: 'Constants (Android)',
+            onClick: function(){
+                logInApp('SUCCESS: ' + Geofence.SUCCESS);
+                logInApp('SERVICE_MISSING: ' + Geofence.SERVICE_MISSING);
+                logInApp('SERVICE_VERSION_UPDATE_REQUIRED: ' + Geofence.SERVICE_VERSION_UPDATE_REQUIRED);
+                logInApp('SERVICE_DISABLED: ' + Geofence.SERVICE_DISABLED);
+                logInApp('SERVICE_INVALID: ' + Geofence.SERVICE_INVALID);
+
+                logInApp('LOCATION_STATUS_ERROR: ' + Geofence.LOCATION_STATUS_ERROR);
+                logInApp('LOCATION_STATUS_GEOFENCE_NOT_AVAILABLE: ' + Geofence.LOCATION_STATUS_GEOFENCE_NOT_AVAILABLE);
+                logInApp('LOCATION_STATUS_GEOFENCE_TOO_MANY_GEOFENCES: ' + Geofence.LOCATION_STATUS_GEOFENCE_TOO_MANY_GEOFENCES);
+                logInApp('LOCATION_STATUS_GEOFENCE_TOO_MANY_PENDING_INTENTS: ' + Geofence.LOCATION_STATUS_GEOFENCE_TOO_MANY_PENDING_INTENTS);
+            }
+        },
+    ];
+    rows =  rows.concat(androidRows);
+}
 
 // Clear app badge when the app is opened
 if (IOS) {
@@ -206,16 +221,30 @@ var win = Ti.UI.createWindow({
 
 var textLog = Ti.UI.createTextArea({
     top: 0,
-    height: '20%',
+    height: '30%',
     width: '100%',
     borderWidth: '2',
     borderColor: '#000',
+    color: '#000',
+    backgroundColor: '#FFF',
+    focusable: false,
+    font: {
+        fontSize: defaultFontSize
+    },
     value: 'AppLog: this log scrolls backwards (newest === top)'
 });
 win.add(textLog);
 
+if (ANDROID) {
+    for (var i = 0, j = rows.length; i < j; i++) {
+        rows[i].font = {fontSize: defaultFontSize};
+        rows[i].height = '50dp';
+        rows[i].color = '#000';
+    }
+}
+
 var tableView = Ti.UI.createTableView({
-    top: '20%',
+    top: '30%',
     data: rows
 });
 tableView.addEventListener('click', function(e){
