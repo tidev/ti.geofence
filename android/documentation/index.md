@@ -69,7 +69,7 @@ Returns a boolean value indicating whether region monitoring is supported on the
 #### Example
     Geofence.regionMonitoringAvailable();    
 
-### boolean isGooglePlayServicesAvailable()
+### number isGooglePlayServicesAvailable()
 Returns a number value indicating the availability of Google Play Services which are required to monitor regions.
 Possible values include `Ti.Geofence.SUCCESS`, `Ti.Geofence.SERVICE_MISSING`, `Ti.Geofence.SERVICE_VERSION_UPDATE_REQUIRED`, `Ti.Geofence.SERVICE_DISABLED`, and `Ti.Geofence.SERVICE_INVALID`;
 
