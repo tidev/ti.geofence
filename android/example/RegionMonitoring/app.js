@@ -163,7 +163,7 @@ Geofence.addEventListener('monitorregions', function(e) {
 // --------------------------------------------------------------------
 
 // How often to pull new regions from the server
-var REFRESH_HOURS = 24
+var REFRESH_HOURS = 24,
     REFRESH_MINUTES = 60,
     REFRESH_SECONDS = 60,
     REFRESH_MILLISECONDS = 1000,
