@@ -243,7 +243,8 @@ public class GeofenceModule extends KrollModule
              // Intent contains information about successful removal of geofences
             } else if (TextUtils.equals(action, GeofenceUtils.ACTION_GEOFENCES_REMOVED)) {
                 Log.d(TAG,  "GeofenceLocalBroadcastReceiver ACTION_GEOFENCES_REMOVED");
-                // Do nothing here. There is no equivalent on iOS.
+                // There is no equivalent on iOS. On Android remove is async.
+                handleGeofenceStatus(context, intent);
 
             // Intent contains information about a geofence transition
             } else if (TextUtils.equals(action, GeofenceUtils.ACTION_GEOFENCE_TRANSITION)) {
@@ -261,14 +262,22 @@ public class GeofenceModule extends KrollModule
         // -----------------------------------------
         
         private void handleGeofenceStatus(Context context, Intent intent) {            
-            if (hasListeners("monitorregions")) {
+            if (hasListeners("monitorregions") || hasListeners("removeregions")) {
                 String[] geofenceIds =  intent.getStringArrayExtra(GeofenceUtils.EXTRA_GEOFENCE_IDS);
                 
                 HashMap<String, Object> event = new HashMap<String, Object>();
                 if (geofenceIds != null) {
                     event.put("regions", regionDictsFromIdArray(geofenceIds));
                 }
-                fireEvent("monitorregions", event);
+
+                String action = intent.getAction();
+                if (TextUtils.equals(action, GeofenceUtils.ACTION_GEOFENCES_ADDED)) {
+                    fireEvent("monitorregions", event);
+                } else if (TextUtils.equals(action, GeofenceUtils.ACTION_GEOFENCES_REMOVED)) {
+                    fireEvent("removeregions", event);
+                } else {
+                    Log.d(TAG, "Unsupported action received: " + action);
+                }
             }
         }
 

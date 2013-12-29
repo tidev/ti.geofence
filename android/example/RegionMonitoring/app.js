@@ -158,6 +158,14 @@ Geofence.addEventListener('monitorregions', function(e) {
     logInApp('####### monitorregion #######: ' + JSON.stringify(e));
 });
 
+Geofence.addEventListener('removeregions', function(e) {
+    // Triggered on Android when regions are removed and are no longer being monitored
+    logInApp('####### removeregions #######: ' + JSON.stringify(e));
+
+    onRegionsRemoved && onRegionsRemoved();
+    onRegionsRemoved = null;
+});
+
 // --------------------------------------------------------------------
 // Geofencing
 // --------------------------------------------------------------------
@@ -173,6 +181,7 @@ var REFRESH_HOURS = 24,
 var ACTIVE_REGIONS_FILENAME = 'activeRegions.json';
 var activeRegionData = readActiveRegionsDataFromFile();
 var refreshTimer;
+var onRegionsRemoved = null;
 
 // Setup
 Ti.Geolocation.purpose = 'testing'; // Required
@@ -287,7 +296,7 @@ function processFences(fences) {
             // denominator 3959 is the radius of earth in miles.
             // Because of this we must eval the radius as it is something
             // like "2000/6378137".
-            radius: 6378137 * eval(fences[i].loc.radius),
+            radius: 6378137 * eval(fence.loc.radius),
             notifyOnEntry: true,
             notifyOnExit: true,
             // The `identifier` must be unique
@@ -307,20 +316,38 @@ function processFences(fences) {
         }
     }
 
-    // Start monitoring the new Regions
-    monitorNewRegions({
+    // Remove old regions and start monitoring the new regions
+    replaceMonitoredRegions({
         regionData: fencesDict,
         regions: regions
     });
 }
 
-function monitorNewRegions(args) {
+function replaceMonitoredRegions(args) {
     args = args || {};
     var regions = args.regions, 
         regionData = args.regionData;
 
     // Must remove all old regions before adding new ones
     Geofence.stopMonitoringAllRegions();
+
+    if (ANDROID) {
+        // On Android stopMonitoringAllRegions() is asynchronous
+        // must listen for the 'removeregions' event before monitoring new regions
+        onRegionsRemoved = function() {
+            monitorNewRegions(args);
+        }
+    } else if (IOS) {
+        monitorNewRegions(args);
+    } else {
+        Ti.API.info('Can not replaceMonitoredRegions on unsupported platform `' + osname + '`');
+    }
+}
+
+function monitorNewRegions(args) {
+    args = args || {};
+    var regions = args.regions, 
+        regionData = args.regionData;
 
     // Start monitoring new regions
     Geofence.startMonitoringForRegions(regions);
