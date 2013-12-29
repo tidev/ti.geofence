@@ -107,11 +107,15 @@ There is a limit to the number of regions that can be monitored at once per appl
 ### void stopMonitoringForRegions(regions)
 Stops monitoring the [Ti.Geofence.Region]s passed to the function. Takes either an array of [Ti.Geofence.Region]s or a single [Ti.Geofence.Region] as an argument.
 
+This method is asynchronous on Android. The `removeregions` event will fire on completion.
+
 #### Example
     Geofence.stopMonitoringForRegions([region, region1]);
     
 ### void stopMonitoringAllRegions()
 Stops monitoring all of the regions that are currently being monitored for the current application.
+
+This method is asynchronous on Android. The `removeregions` event will fire on completion.
 
 #### Example
 	Geofence.stopMonitoringAllRegions();
@@ -199,11 +203,16 @@ Occurs when monitored regions are exited.
 	* Android: \[object\[]]: Objects with `identifier` properties representing the region(s) that were exited
 
 ### monitorregions
-Occurs when regions are added using `stopMonitoringForRegions` and monitoring has successfully started for those regions.
+Occurs when regions are added using `startMonitoringForRegions` and monitoring has successfully started for those regions.
 
 * regions
-	* iOS: \[[Ti.Geofence.Region]\[]]: The region(s) that monitoring started for
-	* Android: \[object\[]]: Objects with `identifier` properties representing the region(s) that monitoring started for
+    * iOS: \[[Ti.Geofence.Region]\[]]: The region(s) that monitoring started for
+    * Android: \[object\[]]: Objects with `identifier` properties representing the region(s) that monitoring started for
+
+### removeregions
+Occurs on Android when regions are remove using `stopMonitoringForRegions` or `stopMonitoringAllRegions` and monitoring has successfully stopped for those regions.
+
+**Note:** Android only.
 
 ## Usage
 See the example applications in the `example` folder of the module.

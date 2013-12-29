@@ -211,6 +211,11 @@ Geofence.addEventListener('monitorregions', function(e) {
     }
 });
 
+Geofence.addEventListener('removeregions', function(e) {
+    // Triggered on Android when regions are removed and are no longer being monitored
+    logInApp('####### removeregions #######: ' + JSON.stringify(e));
+});
+
 // --------------------------------------------------------------------
 // UI
 // --------------------------------------------------------------------
