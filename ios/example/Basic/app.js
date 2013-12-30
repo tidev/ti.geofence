@@ -3,9 +3,22 @@
 // Constants
 // --------------------------------------------------------------------
 
+function isIOS7Plus() {
+    if (Titanium.Platform.name == 'iPhone OS')
+    {
+        var version = Titanium.Platform.version.split('.');
+        var major = parseInt(version[0],10);
+ 
+        if (major >= 7) {
+            return true;
+        }
+    }
+    return false;
+}
 var osname = Ti.Platform.osname,
     ANDROID = (osname === 'android'),
     IOS = (osname === 'iphone' || osname === 'ipad'),
+    IOS7PLUS = isIOS7Plus(),
     defaultFontSize = ANDROID ? '16dp' : 14;
 
 var rows = [
@@ -225,7 +238,7 @@ var win = Ti.UI.createWindow({
 });
 
 var textLog = Ti.UI.createTextArea({
-    top: 0,
+    top: IOS7PLUS ? 20 : 0,
     height: '30%',
     width: '100%',
     borderWidth: '2',
