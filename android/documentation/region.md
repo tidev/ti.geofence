@@ -31,6 +31,8 @@ An object representing the center coordinate for the region. The object must con
 
 Required on creation.
 
+**Note:** The number of decimal places used for the latitude and longitude of a region can have a significant effect on triggering region enter and exit events on regions with a small radius. To get more reliable results, make sure the region's radius is at least 500m for coorindates with 6 decimal places and 30m for 8 decimals.
+
 ### radius[number] (creation-only)
 The radius of the region in meters.
 

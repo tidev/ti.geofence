@@ -11,8 +11,8 @@ Use the `createRegion` method of [Ti.Geofence] to create a region.
 Returns true if the coordinates passed to the method represent a point that is within the region.
 
 * args[object]: The argument passed to the method
-	* latitude[number]: The latitude of the point to be tested
-	* longitude[number]: The longitude of the point to be tested
+    * latitude[number]: The latitude of the point to be tested
+    * longitude[number]: The longitude of the point to be tested
 
 **Note:** iOS only.
 
@@ -30,6 +30,8 @@ An object representing the center coordinate for the region. The object must con
 * longitude[number]: Longitude of the center of the region
 
 Required on creation.
+
+**Note:** The number of decimal places used for the latitude and longitude of a region can have a significant effect on triggering region enter and exit events on regions with a small radius. To get more reliable results, make sure the region's radius is at least 500m for coorindates with 6 decimal places and 30m for 8 decimals.
 
 ### radius[number] (creation-only)
 The radius of the region in meters.
