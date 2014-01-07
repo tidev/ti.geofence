@@ -86,15 +86,17 @@ Creates a [Ti.Geofence.Region] that can be monitored. Currently all regions are 
 #### Example
     var region = Geofence.createRegion({
         center: { 
-            latitude:37.389601,
-            longitude:-122.050169
+            latitude:37.38960100,
+            longitude:-122.05016900
         },
-        radius:10,
+        radius:30,
         identifier:'Appcelerator'
     });
 
 ### void startMonitoringForRegions(regions)
 Starts monitoring the [Ti.Geofence.Region]s passed to the function. Takes either an array of [Ti.Geofence.Region]s or a single [Ti.Geofence.Region] as an argument.
+
+If the device is in a region when monitoring is started for that region, it will generate a `enterregions` event on Android. On iOS, this will not generate an `enterregions` event. Use the `containsCoordinate` on a [Ti.Geofence.Region][] to check if a location is within a region.
 
 There is a limit to the number of regions that can be monitored at once per application; this limit is enforced by the platform. 
 

@@ -66,10 +66,10 @@ var rows = [
             logInApp('startMonitoringForRegions() appc');
             var appc = Geofence.createRegion({
                 center: { 
-                    latitude:37.389601,
-                    longitude:-122.050169
+                    latitude:37.38960100,
+                    longitude:-122.05016900
                 },
-                radius:20, // meters
+                radius:30, // meters
                 identifier:'Appcelerator'
             });
             Geofence.startMonitoringForRegions(appc);
