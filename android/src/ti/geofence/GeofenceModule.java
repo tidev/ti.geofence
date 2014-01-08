@@ -16,14 +16,11 @@ import org.appcelerator.kroll.common.Log;
 import org.appcelerator.titanium.TiApplication;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
@@ -163,7 +160,7 @@ public class GeofenceModule extends KrollModule
     
     @Kroll.method
     public void stopMonitoringAllRegions() {
-        mGeofenceRemover.removeGeofencesByIntent(GeofenceModule.createRequestPendingIntent());
+        mGeofenceRemover.removeGeofencesByIntent(GeofenceModule.getRequestPendingIntent());
     }
     
     // -----------------------------------------
@@ -208,7 +205,7 @@ public class GeofenceModule extends KrollModule
         return regions;
     }
     
-    public static PendingIntent createRequestPendingIntent() {
+    public static PendingIntent getRequestPendingIntent() {
         // Create an Intent pointing to the IntentService
         Intent intent = new Intent(TiApplication.getAppRootOrCurrentActivity(), ReceiveTransitionsIntentService.class);
         /*
@@ -218,11 +215,14 @@ public class GeofenceModule extends KrollModule
          * again updates the original. Otherwise, Location Services
          * can't match the PendingIntent to requests made with it.
          */
+
+        // MOD-1639: Creating a new PendingIntent each time it is needed.
+        // Keeping the PendingIntent in a variable was causing problems.
         return PendingIntent.getService(
-                TiApplication.getAppRootOrCurrentActivity(),
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+            TiApplication.getAppRootOrCurrentActivity(),
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT);
     }
     
     /**
