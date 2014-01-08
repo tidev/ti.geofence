@@ -131,26 +131,33 @@ Geofence.addEventListener('enterregions', function(e) {
     logInApp('####### enterregion #######: ' + JSON.stringify(e));
     // Only the region's `identifier` is returned.
     // Use the `identifier` to look up the rest of the region's data.
-    var r = activeRegionData[e.regions[0].identifier];
-    logInApp('Region: ' + e.regions[0].identifier + ' @ ' + r.loc.coordinate[1] + ',' + r.loc.coordinate[0]);
+    var regionData;
+    for (var i = 0, j = e.regions.length; i < j; i++) {
+        regionData = activeRegionData[e.regions[i].identifier];
+        logInApp('Region: ' + e.regions[i].identifier + ' @ ' + regionData.loc.coordinate[1] + ',' + regionData.loc.coordinate[0]);
 
-    // Display local notification
-    showNotification({
-        title: 'ENTER',
-        body: 'enter - ' + e.regions[0].identifier
-    });
+        // Display local notification
+        showNotification({
+            title: 'ENTER',
+            body: 'enter - ' + e.regions[i].identifier
+        });
+    }
 });
 
 Geofence.addEventListener('exitregions', function(e) {
     logInApp('####### exitregion #######: ' + JSON.stringify(e));
-    var r = activeRegionData[e.regions[0].identifier];
-    logInApp('Region: ' + e.regions[0].identifier + ' @ ' + r.loc.coordinate[1] + ',' + r.loc.coordinate[0]);
 
-    // Display local notification
-    showNotification({
-        title: 'EXIT',
-        body: 'exit - ' + e.regions[0].identifier
-    });
+    var regionData;
+    for (var i = 0, j = e.regions.length; i < j; i++) {
+        regionData = activeRegionData[e.regions[i].identifier];
+        logInApp('Region: ' + e.regions[i].identifier + ' @ ' + regionData.loc.coordinate[1] + ',' + regionData.loc.coordinate[0]);
+
+        // Display local notification
+        showNotification({
+            title: 'EXIT',
+            body: 'exit - ' + e.regions[i].identifier
+        });
+    }
 });
 
 Geofence.addEventListener('monitorregions', function(e) {
