@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
@@ -48,9 +47,6 @@ public class GeofenceRequester implements
     // Storage for a reference to the calling client
     private final Activity mActivity;
 
-    // Stores the PendingIntent used to send geofence transitions back to the app
-    private PendingIntent mGeofencePendingIntent;
-
     // Stores the current list of geofences
     private ArrayList<Geofence> mCurrentGeofences;
 
@@ -68,7 +64,6 @@ public class GeofenceRequester implements
         mActivity = activityContext;
 
         // Initialize the globals to null
-        mGeofencePendingIntent = null;
         mLocationClient = null;
         mInProgress = false;
     }
@@ -91,15 +86,6 @@ public class GeofenceRequester implements
      */
     public boolean getInProgressFlag() {
         return mInProgress;
-    }
-
-    /**
-     * Returns the current PendingIntent to the caller.
-     *
-     * @return The PendingIntent used to create the current set of geofences
-     */
-    public PendingIntent getRequestPendingIntent() {
-        return createRequestPendingIntent();
     }
 
     /**
@@ -158,11 +144,8 @@ public class GeofenceRequester implements
      * Once the connection is available, send a request to add the Geofences
      */
     private void continueAddGeofences() {   
-        // Get a PendingIntent that Location Services issues when a geofence transition occurs
-        mGeofencePendingIntent = createRequestPendingIntent();
-
         // Send a request to add the current geofences
-        mLocationClient.addGeofences(mCurrentGeofences, mGeofencePendingIntent, this);
+        mLocationClient.addGeofences(mCurrentGeofences, GeofenceModule.getRequestPendingIntent(), this);
     }
 
     /*
@@ -258,28 +241,6 @@ public class GeofenceRequester implements
 
         // Destroy the current location client
         mLocationClient = null;
-    }
-
-    /**
-     * Get a PendingIntent to send with the request to add Geofences. Location Services issues
-     * the Intent inside this PendingIntent whenever a geofence transition occurs for the current
-     * list of geofences.
-     *
-     * @return A PendingIntent for the IntentService that handles geofence transitions.
-     */
-    private PendingIntent createRequestPendingIntent() {
-        // If the PendingIntent already exists
-        if (null != mGeofencePendingIntent) {
-
-            // Return the existing intent
-            return mGeofencePendingIntent;
-
-        // If no PendingIntent exists
-        } else {
-
-            // Create an Intent pointing to the IntentService
-            return GeofenceModule.createRequestPendingIntent();
-        }
     }
 
     /*
