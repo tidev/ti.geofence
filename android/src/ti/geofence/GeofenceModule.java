@@ -15,6 +15,7 @@ import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.titanium.TiApplication;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -94,6 +95,15 @@ public class GeofenceModule extends KrollModule
         mGeofenceRemover = new GeofenceRemover(TiApplication.getAppRootOrCurrentActivity());
         
         LocalBroadcastManager.getInstance(TiApplication.getAppRootOrCurrentActivity()).registerReceiver(mBroadcastReceiver, mIntentFilter);
+    }
+    
+    @Override
+    public void onDestroy(Activity activity) 
+    {
+        // This method is called when the root context is being destroyed
+        LocalBroadcastManager.getInstance(TiApplication.getAppRootOrCurrentActivity()).unregisterReceiver(mBroadcastReceiver);
+
+        super.onDestroy(activity);
     }
     
     // -----------------------------------------

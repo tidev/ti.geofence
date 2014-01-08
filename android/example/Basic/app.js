@@ -194,26 +194,26 @@ Geofence.addEventListener('enterregions', function(e) {
     logInApp('####### enterregion #######: ' + JSON.stringify(e));
     for (var i = 0, j = e.regions.length; i < j; i++) {
         logInApp('Region id: ' + e.regions[i].identifier);
-    }
 
-    // Display local notification
-    showNotification({
-        title: 'ENTER',
-        body: 'enter - ' + e.regions[0].identifier
-    });
+        // Display local notification
+        showNotification({
+            title: 'ENTER',
+            body: 'enter - ' + e.regions[i].identifier
+        });
+    }
 });
 
 Geofence.addEventListener('exitregions', function(e) {
     logInApp('####### exitregion #######: ' + JSON.stringify(e));
     for (var i = 0, j = e.regions.length; i < j; i++) {
         logInApp('Region id: ' + e.regions[i].identifier);
-    }
 
-    // Display local notification
-    showNotification({
-        title: 'EXIT',
-        body: 'exit - ' + e.regions[0].identifier
-    });
+        // Display local notification
+        showNotification({
+            title: 'EXIT',
+            body: 'exit - ' + e.regions[i].identifier
+        });
+    }
 });
 
 Geofence.addEventListener('monitorregions', function(e) {
