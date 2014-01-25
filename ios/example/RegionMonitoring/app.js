@@ -13,10 +13,10 @@
 //    Login (you will need to create a user and pass the correct login and password): 
 //     curl -b cookies.txt -c cookies.txt -F "login=jalter" -F "password=pass" https://api.cloud.appcelerator.com/v1/users/login.json?key=<YOUR APP APP KEY>
 //    Create Places:
-//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.032547,37.335275], "radius":"2000/6378137"}, "payload":{"name":"280T1-1"}}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
-//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.056827,37.332362], "radius":"2000/6378137"}, "payload":{"name":"280T1-2"}}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
-//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.074176,37.334737], "radius":"2000/6378137"}, "payload":{"name":"280T1-3"}}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
-//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.099634,37.346764], "radius":"2000/6378137"}, "payload":{"name":"280T1-4"}}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
+//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.032547,37.335275], "radius":"2000/6378137"}, "payload":"280T1-1"}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
+//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.056827,37.332362], "radius":"2000/6378137"}, "payload":"280T1-2"}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
+//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.074176,37.334737], "radius":"2000/6378137"}, "payload":"280T1-3"}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
+//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.099634,37.346764], "radius":"2000/6378137"}, "payload":"280T1-4"}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
 // 4. Run your application.
 // 5. Follow one of the steps under the `Testing` section of the module's documentation for testing
 //      * Since the above locations are on the beginning of the route starting at N. DeAnza Blvd 
@@ -264,7 +264,7 @@ function fetchNewFences(args) {
             else {
                 logInApp('Found GeoFences');
                 for (var i = 0, l = e.geo_fences.length; i < l; i++) {
-                    logInApp('Name: ' + e.geo_fences[i].payload.name);
+                    logInApp('Name: ' + e.geo_fences[i].payload);
                 }
 
                 // Process geo_fences and start monitoring their regions
@@ -307,12 +307,12 @@ function processFences(fences) {
             notifyOnEntry: true,
             notifyOnExit: true,
             // The `identifier` must be unique
-            identifier: fence.payload.name
+            identifier: fence.payload
         });
         regions.push(region);
         // Only a Region's `identifier` can be read back from a region
         // Save each fence's data so it can be looked up later using the `identifier`
-        fencesDict[fence.payload.name] = fence;
+        fencesDict[fence.payload] = fence;
 
         // There is a limit to the number of regions that can be
         // monitored at once this limit is enforced by the platform
@@ -343,7 +343,7 @@ function replaceMonitoredRegions(args) {
         // must listen for the 'removeregions' event before monitoring new regions
         onRegionsRemoved = function() {
             monitorNewRegions(args);
-        }
+        };
     } else if (IOS) {
         monitorNewRegions(args);
     } else {
