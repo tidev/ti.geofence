@@ -30,7 +30,7 @@ var rows = [
                     latitude:37.389601,
                     longitude:-122.050169
                 },
-                radius:10,
+                radius:500,
                 identifier:'Appcelerator'
             });
             logInApp('REGION: ' + region + ' with identifier: ' + region.identifier);
