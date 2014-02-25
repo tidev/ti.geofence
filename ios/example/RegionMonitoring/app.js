@@ -134,7 +134,7 @@ Geofence.addEventListener('enterregions', function(e) {
     var regionData;
     for (var i = 0, j = e.regions.length; i < j; i++) {
         regionData = activeRegionData[e.regions[i].identifier];
-        logInApp('Region: ' + e.regions[i].identifier + ' @ ' + regionData.loc.coordinate[1] + ',' + regionData.loc.coordinate[0]);
+        logInApp('Region: ' + e.regions[i].identifier + ' @ ' + regionData.loc.coordinates[1] + ',' + regionData.loc.coordinates[0]);
 
         // Display local notification
         showNotification({
@@ -150,7 +150,7 @@ Geofence.addEventListener('exitregions', function(e) {
     var regionData;
     for (var i = 0, j = e.regions.length; i < j; i++) {
         regionData = activeRegionData[e.regions[i].identifier];
-        logInApp('Region: ' + e.regions[i].identifier + ' @ ' + regionData.loc.coordinate[1] + ',' + regionData.loc.coordinate[0]);
+        logInApp('Region: ' + e.regions[i].identifier + ' @ ' + regionData.loc.coordinates[1] + ',' + regionData.loc.coordinates[0]);
 
         // Display local notification
         showNotification({
@@ -292,8 +292,8 @@ function processFences(fences) {
         fence = fences[i];
         region = Geofence.createRegion({
             center: { 
-                latitude: fence.loc.coordinate[1],
-                longitude: fence.loc.coordinate[0]
+                latitude: fence.loc.coordinates[1],
+                longitude: fence.loc.coordinates[0]
             },
             // A region's radius is measured in meters
             // A geo_fence's radius is based on the radius of the earth
