@@ -246,6 +246,7 @@ function fetchNewFences(args) {
     }
 
     Cloud.GeoFences.query({
+        response_json_depth: 1,
         where:{ 
             'loc': {
                 '$nearSphere' : { 
