@@ -13,10 +13,10 @@
 //    Login (you will need to create a user and pass the correct login and password): 
 //     curl -b cookies.txt -c cookies.txt -F "login=jalter" -F "password=pass" https://api.cloud.appcelerator.com/v1/users/login.json?key=<YOUR APP APP KEY>
 //    Create Places:
-//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.032547,37.335275], "radius":"2000/6378137"}, "payload":"280T1-1"}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
-//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.056827,37.332362], "radius":"2000/6378137"}, "payload":"280T1-2"}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
-//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.074176,37.334737], "radius":"2000/6378137"}, "payload":"280T1-3"}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
-//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinate":[-122.099634,37.346764], "radius":"2000/6378137"}, "payload":"280T1-4"}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
+//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinates":[-122.032547,37.335275], "radius":"2000/6378137"}, "payload":{"name":"280T1-1"}}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
+//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinates":[-122.056827,37.332362], "radius":"2000/6378137"}, "payload":{"name":"280T1-2"}}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
+//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinates":[-122.074176,37.334737], "radius":"2000/6378137"}, "payload":{"name":"280T1-3"}}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
+//     curl -X POST -b cookies.txt -c cookies.txt -F 'geo_fence={"loc":{"coordinates":[-122.099634,37.346764], "radius":"2000/6378137"}, "payload":{"name":"280T1-4"}}' "http://api.cloud.appcelerator.com/v1/geo_fences/create.json?key=<YOUR APP APP KEY>"
 // 4. Run your application.
 // 5. Follow one of the steps under the `Testing` section of the module's documentation for testing
 //      * Since the above locations are on the beginning of the route starting at N. DeAnza Blvd 
@@ -78,22 +78,26 @@ var win = Ti.UI.createWindow({
     backgroundColor: 'white'
 });
 
-var textLog = Ti.UI.createTextArea({
+var scrollView =  Ti.UI.createScrollView({
     top: IOS7PLUS ? 20 : 0,
-    height: '30%',
+    bottom: '60%',
     width: '100%',
     borderWidth: '2',
     borderColor: '#000',
     color: '#000',
-    backgroundColor: '#FFF',
-    focusable: false,
+    backgroundColor: '#FFF'
+});
+var textLog = Ti.UI.createLabel({
+    top: 0,
+    left: 5,
     font: {
         fontSize: defaultFontSize
     },
-    value: 'AppLog: this log scrolls backwards (newest === top)'
+    text: 'AppLog: see the console log for more details'
 });
-win.add(textLog);
-
+win.add(scrollView);
+scrollView.add(textLog);
+ 
 if (ANDROID) {
     for (var i = 0, j = rows.length; i < j; i++) {
         rows[i].font = {fontSize: defaultFontSize};
@@ -103,7 +107,8 @@ if (ANDROID) {
 }
 
 var tableView = Ti.UI.createTableView({
-    top: '30%',
+    height: '60%',
+    bottom: 0,
     data: rows
 });
 tableView.addEventListener('click', function(e){
@@ -111,13 +116,28 @@ tableView.addEventListener('click', function(e){
 });
 win.add(tableView);
 
-// Util - Logs in app and console
-function logInApp(text) {
-    textLog.value = text + '\n' + textLog.value;
-    Ti.API.info(text);
-}
+var scrollViewHeight;
+scrollView.addEventListener('postlayout', function(){
+    scrollViewHeight = scrollView.rect.height;
+});
+// Scroll as more text is added to the log label
+textLog.addEventListener('postlayout', function(){
+    var sHeight = scrollViewHeight,
+        tHeight = textLog.rect.height;
+    if (tHeight > sHeight) {
+        scrollView.setContentOffset({
+            x: 0, y: tHeight - sHeight
+        }, false);
+    }
+});
 
 win.open();
+ 
+// Util - Logs in app and console
+function logInApp(text) {
+    textLog.text = textLog.text + '\n' + text;
+    Ti.API.info(text);
+}
 
 // --------------------------------------------------------------------
 // Geofence Event Listners
@@ -134,7 +154,7 @@ Geofence.addEventListener('enterregions', function(e) {
     var regionData;
     for (var i = 0, j = e.regions.length; i < j; i++) {
         regionData = activeRegionData[e.regions[i].identifier];
-        logInApp('Region: ' + e.regions[i].identifier + ' @ ' + regionData.loc.coordinate[1] + ',' + regionData.loc.coordinate[0]);
+        logInApp('Region: ' + e.regions[i].identifier + ' @ ' + regionData.loc.coordinates[1] + ',' + regionData.loc.coordinates[0]);
 
         // Display local notification
         showNotification({
@@ -150,7 +170,7 @@ Geofence.addEventListener('exitregions', function(e) {
     var regionData;
     for (var i = 0, j = e.regions.length; i < j; i++) {
         regionData = activeRegionData[e.regions[i].identifier];
-        logInApp('Region: ' + e.regions[i].identifier + ' @ ' + regionData.loc.coordinate[1] + ',' + regionData.loc.coordinate[0]);
+        logInApp('Region: ' + e.regions[i].identifier + ' @ ' + regionData.loc.coordinates[1] + ',' + regionData.loc.coordinates[0]);
 
         // Display local notification
         showNotification({
@@ -163,6 +183,9 @@ Geofence.addEventListener('exitregions', function(e) {
 Geofence.addEventListener('monitorregions', function(e) {
     // Triggered when new regions are added to be monitored
     logInApp('####### monitorregion #######: ' + JSON.stringify(e));
+    for (var i = 0, j = e.regions.length; i < j; i++) {
+        logInApp('Region id: ' + e.regions[i].identifier);
+    }
 });
 
 Geofence.addEventListener('removeregions', function(e) {
@@ -246,6 +269,7 @@ function fetchNewFences(args) {
     }
 
     Cloud.GeoFences.query({
+        response_json_depth: 1,
         where:{ 
             'loc': {
                 '$nearSphere' : { 
@@ -264,7 +288,7 @@ function fetchNewFences(args) {
             else {
                 logInApp('Found GeoFences');
                 for (var i = 0, l = e.geo_fences.length; i < l; i++) {
-                    logInApp('Name: ' + e.geo_fences[i].payload);
+                    logInApp('Name: ' + e.geo_fences[i].payload.name);
                 }
 
                 // Process geo_fences and start monitoring their regions
@@ -292,8 +316,8 @@ function processFences(fences) {
         fence = fences[i];
         region = Geofence.createRegion({
             center: { 
-                latitude: fence.loc.coordinate[1],
-                longitude: fence.loc.coordinate[0]
+                latitude: fence.loc.coordinates[1],
+                longitude: fence.loc.coordinates[0]
             },
             // A region's radius is measured in meters
             // A geo_fence's radius is based on the radius of the earth
@@ -307,12 +331,12 @@ function processFences(fences) {
             notifyOnEntry: true,
             notifyOnExit: true,
             // The `identifier` must be unique
-            identifier: fence.payload
+            identifier: fence.payload.name
         });
         regions.push(region);
         // Only a Region's `identifier` can be read back from a region
         // Save each fence's data so it can be looked up later using the `identifier`
-        fencesDict[fence.payload] = fence;
+        fencesDict[fence.payload.name] = fence;
 
         // There is a limit to the number of regions that can be
         // monitored at once this limit is enforced by the platform
