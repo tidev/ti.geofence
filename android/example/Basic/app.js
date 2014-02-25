@@ -237,22 +237,26 @@ var win = Ti.UI.createWindow({
     backgroundColor: 'white'
 });
 
-var textLog = Ti.UI.createTextArea({
+var scrollView =  Ti.UI.createScrollView({
     top: IOS7PLUS ? 20 : 0,
-    height: '30%',
+    bottom: '60%',
     width: '100%',
     borderWidth: '2',
     borderColor: '#000',
     color: '#000',
-    backgroundColor: '#FFF',
-    focusable: false,
+    backgroundColor: '#FFF'
+});
+var textLog = Ti.UI.createLabel({
+    top: 0,
+    left: 5,
     font: {
         fontSize: defaultFontSize
     },
-    value: 'AppLog: this log scrolls backwards (newest === top)'
+    text: 'AppLog: see the console log for more details'
 });
-win.add(textLog);
-
+win.add(scrollView);
+scrollView.add(textLog);
+ 
 if (ANDROID) {
     for (var i = 0, j = rows.length; i < j; i++) {
         rows[i].font = {fontSize: defaultFontSize};
@@ -262,7 +266,8 @@ if (ANDROID) {
 }
 
 var tableView = Ti.UI.createTableView({
-    top: '30%',
+    height: '60%',
+    bottom: 0,
     data: rows
 });
 tableView.addEventListener('click', function(e){
@@ -270,12 +275,28 @@ tableView.addEventListener('click', function(e){
 });
 win.add(tableView);
 
-function logInApp(text) {
-    textLog.value = text + '\n' + textLog.value;
-    Ti.API.info(text);
-}
+var scrollViewHeight;
+scrollView.addEventListener('postlayout', function(){
+    scrollViewHeight = scrollView.rect.height;
+});
+// Scroll as more text is added to the log label
+textLog.addEventListener('postlayout', function(){
+    var sHeight = scrollViewHeight,
+        tHeight = textLog.rect.height;
+    if (tHeight > sHeight) {
+        scrollView.setContentOffset({
+            x: 0, y: tHeight - sHeight
+        }, false);
+    }
+});
 
 win.open();
+ 
+// Util - Logs in app and console
+function logInApp(text) {
+    textLog.text = textLog.text + '\n' + text;
+    Ti.API.info(text);
+}
 
 // --------------------------------------------------------------------
 // Utilities
