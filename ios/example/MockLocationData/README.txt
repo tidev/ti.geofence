@@ -1,1 +1,0 @@
-The mock locations in this folder are provided for testing. The locations start at N. DeAnza Blvd and I280 and head north on I280.
