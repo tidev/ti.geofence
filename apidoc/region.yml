@@ -1,0 +1,64 @@
+---
+name: Titanium.Geofence.Region
+extends: Titanium.Proxy
+summary: An object that represents a geographic region to be monitored.
+description: |
+    An object that represents a geographic region to be monitored. Use the `Geofence.createRegion` method to create a region.
+since: "1.7.0"
+
+properties:
+  - name: identifier
+    summary: The unique identifier of the region.
+    description:
+    type: String
+
+  - name: center
+    summary: An object representing the center coordinate for the region.
+    description: |
+        The object must contain the following properties:
+            * `latitude`: The latitude of the point to be tested
+            * `longitude`: The longitude of the point to be tested
+    type: Dictionary
+
+  - name: identifier
+    summary: A unique region identfier.
+    description: |
+        A string that uniquely identifies the region.
+    type: String
+
+  - name: radiusnumber
+    summary: The radius of the region to monitor in meters.
+    description: |
+    type: Number
+
+  - name: notifyOnEntry
+    summary: A boolean that controlls whether the region will notify on entry.
+    description: |
+        If `true`, an `enterregions` event is generated when the device enters the region.
+        If `false`, no event is generated. Default is `true`.
+
+        Can only be set when calling `Geofence.createRegion()`.
+    type: Boolean
+
+  - name: notifyOnExit
+    summary: A boolean that controlls whether the region will notify on exit.
+    description: |
+        If `true`, an `enterregions` event is generated when the device exit the region.
+        If `false`, no event is generated. Default is `true`.
+
+        Can only be set when calling `Geofence.createRegion()`.
+
+    type: Boolean
+
+methods:
+
+  - name: containsCoordinate
+    summary: Returns true if the coordinates passed to the method represent a point that is within the region.
+    description: |
+        Returns true if the coordinates passed to the method represent a point that is within the region.
+
+        **Note:** iOS only.
+    parameters:
+      - name: point
+        type: Dictionary
+        summary: A Dictionary that defines `latitude` and `longitude` properties.
