@@ -1,63 +1,90 @@
-# Ti.Geofence Module
+---
+name: Modules.Geofence
+summary: |
+    Provides a battery-efficient way for applications to monitor a device's movement
+    into or out of a geofence, or virtual perimeter of a geographic region.
+description: |
+    The Geofence module lets you define and monitor geofences, or virtual perimeters
+    over a geographic area, in your application. The module notifies your application via events
+    as the device moves into or out of a defined geofenced area.
 
-## Description
+    ### Getting Started
 
-Allows the battery friendly monitoring of geofences on a device.
+    Once you've added the Geofence module to your project, use `require` to access this module from JavaScript:
 
-## Getting Started
+        var Geofence = require("ti.geofence");
 
-View the [Using Titanium Modules](http://docs.appcelerator.com/titanium/latest/#!/guide/Using_Titanium_Modules) document for instructions on getting
-started with using this module in your application.
+    ### Creating and monitoring geofence regions
 
-## Testing
+    You use the `Geofence.createRegion()` method to define a [Region](#region) object.
+    A geofence region is a circular area defined by a point (latitude and longitude) and a radius.
 
-Once you have created some geofence regions that you wish to monitor the next step is testing.
+        var region = Geofence.createRegion({
+            center: {
+                latitude:37.389601,
+                longitude:-122.050169
+            },
+            radius:500,
+            identifier:'Appcelerator'
+        });
+
+    To monitor a region you call the `Geofence.startMonitoringForRegions()` method, passing it the
+    region, or regions, to monitor. This method can take a single Region object or an array of Region objects.
+
+        Geofence.startMonitoringForRegions(region);
+
+    ### Monitoring Geofence Regions
+
+    A region's radius is measured in meters. A geofence's radius is based on the radius of the .
+    To give a 2000 meters of radius, it should be 2000 / 6378137, where denominator
+    6378137 is the radius of earth in meters. Another example: 10 / 3959 is the radius of 10 miles where
+    denominator 3959 is the radius of earth in miles. Because of this we must eval the radius as it is something
+    like "2000/6378137".
+
+
+
+    ## Testing
+
+    Once you have created some geofence regions that you wish to monitor the next step is testing.
 There are several different options when it comes to testing geofences.
 
-**NOTE:** The timing and frequency of location events may vary depending on the environment (device, OS version, etc).
+    **NOTE:** The timing and frequency of location events may vary depending on the environment (device, OS version, etc).
 
-### Drive around with a test device
+    ### Drive around with a test device
 
-This is pretty self explanatory.
+    This is pretty self explanatory.
 
-### Mock locations from the iOS Simulator
+    ### Mock locations from the iOS Simulator
 
-Once the application is running in the simulator, select the simulator and go to **Debug**>**Location** and select a location or route that you would like to be sent to the simulator. 
+    Once the application is running in the simulator, select the simulator and go to **Debug**>**Location** and select a location or route that you would like to be sent to the simulator.
 
-**Note:** At the time of writing, **Freeway Drive** starts at N. DeAnza Blvd and I280 and travels north on I280.
+    **Note:** At the time of writing, **Freeway Drive** starts at N. DeAnza Blvd and I280 and travels north on I280.
 
-### Mock locations from Xcode
+    ### Mock locations from Xcode
 
-This method will work on both the iOS Simulator and on device.
+    This method will work on both the iOS Simulator and on device.
 
-1. Launch your application once, then go to the build folder of your project and open the Xcode project found in **build/iphone/**. 
-2. Run your project using Xcode.
-3. Once app is running, Xcode should have a debug area with the debug console at the bottom. At the top of this debug area click on the icon that looks like a small arrow pointing up to the right. 
-4. You will see a list of mock locations that can be sent to your running app.
-5. Select one of these locations to send it to your app.
-6. Alternately click on **Add GPX File to Project...** and select a GPX file with mock locations.
-7. There is a GPX provided for you in the **example/MockLocationData/** folder that starts at N. DeAnza Blvd and I280 and travels north on I280.
-8. After adding a GPX file, go back and click on the mock locations arrow. The GPX file should now be in the list. Select the mock location to start using it.
+    1. Launch your application once, then go to the build folder of your project and open the Xcode project found in **build/iphone/**.
+    2. Run your project using Xcode.
+    3. Once app is running, Xcode should have a debug area with the debug console at the bottom. At the top of this debug area click on the icon that looks like a small arrow pointing up to the right.
+    4. You will see a list of mock locations that can be sent to your running app.
+    5. Select one of these locations to send it to your app.
+    6. Alternately click on **Add GPX File to Project...** and select a GPX file with mock locations.
+    7. There is a GPX provided for you in the **example/MockLocationData/** folder that starts at N. DeAnza Blvd and I280 and travels north on I280.
+    8. After adding a GPX file, go back and click on the mock locations arrow. The GPX file should now be in the list. Select the mock location to start using it.
 
-**Note:** At the time of writing, this method would not work consistently with Xcode 5 and iOS 7.
+    **Note:** At the time of writing, this method would not work consistently with Xcode 5 and iOS 7.
 
-### Mock locations from on Android
+    ### Mock locations from on Android
 
-Add the following to your `tiapp.xml`.
+    Add the following to your `tiapp.xml`.
 
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
 
-Download the "[LocationProvider](http://developer.android.com/shareables/training/LocationProvider.zip)" Android example app and use it to send mock locations to your app.
+    Download the "[LocationProvider](http://developer.android.com/shareables/training/LocationProvider.zip)" Android example app and use it to send mock locations to your app.
 
-For more info read [Android's Location testing instructions](http://developer.android.com/training/location/location-testing.html).
+    For more info read [Android's Location testing instructions](http://developer.android.com/training/location/location-testing.html).
 
-## Accessing the Module
-
-Use `require` to access this module from JavaScript:
-
-    var Geofence = require("ti.geofence");
-
-The Geofence variable is a reference to the Module object.
 
 ## Methods
 
@@ -67,7 +94,7 @@ Returns a boolean value indicating whether region monitoring is supported on the
 **Note:** iOS only.
 
 #### Example
-    Geofence.regionMonitoringAvailable();    
+    Geofence.regionMonitoringAvailable();
 
 ### number isGooglePlayServicesAvailable()
 Returns a number value indicating the availability of Google Play Services which are required to monitor regions.
@@ -76,16 +103,16 @@ Possible values include `Ti.Geofence.SUCCESS`, `Ti.Geofence.SERVICE_MISSING`, `T
 **Note:** Android only.
 
 #### Example
-    Geofence.isGooglePlayServicesAvailable();   
+    Geofence.isGooglePlayServicesAvailable();
 
 ### [Ti.Geofence.Region] createRegion(params)
 Creates a [Ti.Geofence.Region] that can be monitored. Currently all regions are circular.
 
 * params[object]: Object with [Ti.Geofence.Region] properties.
-    
+
 #### Example
     var region = Geofence.createRegion({
-        center: { 
+        center: {
             latitude:37.38960100,
             longitude:-122.05016900
         },
@@ -98,14 +125,14 @@ Starts monitoring the [Ti.Geofence.Region]s passed to the function. Takes either
 
 If the device is in a region when monitoring is started for that region, it will generate a `enterregions` event on Android. On iOS, this will not generate an `enterregions` event. Use the `containsCoordinate` on a [Ti.Geofence.Region][] to check if a location is within a region.
 
-There is a limit to the number of regions that can be monitored at once per application; this limit is enforced by the platform. 
+There is a limit to the number of regions that can be monitored at once per application; this limit is enforced by the platform.
 
 * iOS: 20 Region limit
 * Android: 100 Region limit
 
 #### Example
     Geofence.startMonitoringForRegions([region, region1]);
-    
+
 ### void stopMonitoringForRegions(regions)
 Stops monitoring the [Ti.Geofence.Region]s passed to the function. Takes either an array of [Ti.Geofence.Region]s or a single [Ti.Geofence.Region] as an argument.
 
@@ -113,7 +140,7 @@ This method is asynchronous on Android. The `removeregions` event will fire on c
 
 #### Example
     Geofence.stopMonitoringForRegions([region, region1]);
-    
+
 ### void stopMonitoringAllRegions()
 Stops monitoring all of the regions that are currently being monitored for the current application.
 
@@ -121,7 +148,7 @@ This method is asynchronous on Android. The `removeregions` event will fire on c
 
 #### Example
     Geofence.stopMonitoringAllRegions();
-    
+
 ## Properties
 
 ### monitoredRegions[Ti.Geofence.Region]\[] (read-only)
