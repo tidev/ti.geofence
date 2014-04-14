@@ -8,6 +8,9 @@ description: |
     over a geographic area, in your application. The module notifies your application via events
     as the device moves into or out of a defined geofenced area.
 
+    This module can be used by itself to monitor a device's movement. You can also integrate geofence 
+    monitoring with 
+
     ### Getting Started
 
     Once you've added the Geofence module to your project, use `require` to access this module from JavaScript:
@@ -29,26 +32,43 @@ description: |
         });
 
     To monitor a region you call the `Geofence.startMonitoringForRegions()` method, passing it the
-    region, or regions, to monitor. This method can take a single Region object or an array of Region objects.
+    region or regions to monitor. This method can take a single Region object as a parameter
+    or an array of Region objects.
 
         Geofence.startMonitoringForRegions(region);
 
-    ### Monitoring Geofence Regions
+    To be notified when the device enters or exits a region, create listeners for the `enterregions`
+    and `exitregions` events, respectively.
 
-    A region's radius is measured in meters. A geofence's radius is based on the radius of the .
-    To give a 2000 meters of radius, it should be 2000 / 6378137, where denominator
-    6378137 is the radius of earth in meters. Another example: 10 / 3959 is the radius of 10 miles where
-    denominator 3959 is the radius of earth in miles. Because of this we must eval the radius as it is something
-    like "2000/6378137".
+        Geofence.addEventListener('enterregions', function(e) {
+            for (var i = 0, j = e.regions.length; i < j; i++) {
+                // Display local notification
+                showNotification({
+                    title: 'ENTER',
+                    body: 'enter - ' + e.regions[i].identifier
+                });
+            }
+        });
 
+        Geofence.addEventListener('exitregions', function(e) {
+            for (var i = 0, j = e.regions.length; i < j; i++) {
+                // Display local notification
+                showNotification({
+                    title: 'EXIT',
+                    body: 'exit - ' + e.regions[i].identifier
+                });
+            }
+        });
 
+    You can also create listeners to be notified when regions start or stop being monitored,
+    or when there's an error.
 
     ## Testing
 
     Once you have created some geofence regions that you wish to monitor the next step is testing.
-There are several different options when it comes to testing geofences.
+    There are several different options when it comes to testing geofences.
 
-    **NOTE:** The timing and frequency of location events may vary depending on the environment (device, OS version, etc).
+    <p class="note">The timing and frequency of location events may vary depending the device, OS version, and network availability, for example.</p>
 
     ### Drive around with a test device
 
@@ -56,24 +76,23 @@ There are several different options when it comes to testing geofences.
 
     ### Mock locations from the iOS Simulator
 
-    Once the application is running in the simulator, select the simulator and go to **Debug**>**Location** and select a location or route that you would like to be sent to the simulator.
+    Once the application is running in the simulator, select the simulator and go to **Debug**>**Location** and 
+    select a predefined location or route that you would like to be sent to the simulator. You can 
+    also enter a custom location (latitude, longitude).
 
-    **Note:** At the time of writing, **Freeway Drive** starts at N. DeAnza Blvd and I280 and travels north on I280.
-
-    ### Mock locations from Xcode
+    ### Mock locations using Xcode
 
     This method will work on both the iOS Simulator and on device.
 
+    <img src="https://www.google.com/images/srpr/logo11w.png" alt="" />
+
     1. Launch your application once, then go to the build folder of your project and open the Xcode project found in **build/iphone/**.
     2. Run your project using Xcode.
-    3. Once app is running, Xcode should have a debug area with the debug console at the bottom. At the top of this debug area click on the icon that looks like a small arrow pointing up to the right.
-    4. You will see a list of mock locations that can be sent to your running app.
+    3. Once app is running, in Xcode debug area, click the Simulate Location icon to display a list of mock locations that can be sent to your application.
     5. Select one of these locations to send it to your app.
     6. Alternately click on **Add GPX File to Project...** and select a GPX file with mock locations.
     7. There is a GPX provided for you in the **example/MockLocationData/** folder that starts at N. DeAnza Blvd and I280 and travels north on I280.
     8. After adding a GPX file, go back and click on the mock locations arrow. The GPX file should now be in the list. Select the mock location to start using it.
-
-    **Note:** At the time of writing, this method would not work consistently with Xcode 5 and iOS 7.
 
     ### Mock locations from on Android
 
@@ -81,9 +100,9 @@ There are several different options when it comes to testing geofences.
 
         <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
 
-    Download the "[LocationProvider](http://developer.android.com/shareables/training/LocationProvider.zip)" Android example app and use it to send mock locations to your app.
-
-    For more info read [Android's Location testing instructions](http://developer.android.com/training/location/location-testing.html).
+    For more information, see [Testing Using Mock Locations](http://developer.android.com/training/location/location-testing.html) and 
+    download the [LocationProvider](http://developer.android.com/shareables/training/LocationProvider.zip)" 
+    to send mock locations to your app.
 
 
 ## Methods
