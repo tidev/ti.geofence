@@ -98,9 +98,9 @@ description: |
 
     ### Sample applications
 
-    The module ZIP file contains two Geofence sample applications (**examples/Basic** and **examples/RegionMonitoring**) a GPX file for mocking location data in Xcode. The Basic geofence sample app shows how to create and monitor regions. 
-    The RegionMonitoring sample demonstrates integration with the [Geofences ACS API](/cloud/latest/#!/api/GeoFences), 
-    which lets you create and update geofences on ACS.
+    The module ZIP file contains two Geofence sample applications (**examples/Basic** and **examples/RegionMonitoring**) 
+    and a GPX file (**examples/MockLocationData**) for mocking location data in Xcode.
+
 
 since: "3.1.3"
 platforms: [android, iphone, ipad]
