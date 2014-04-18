@@ -160,14 +160,21 @@ methods:
         On Android, if the device is located in a [Region](Modules.Geofence.Region) that has just
         started being monitored, an `[enterregions](Modules.Geofence.enterregions)`
         event is generated. On iOS, this scenario will not generate an `enterregions` event;
-        instead, use the `[containsCoordinate](Modules.Geofence.Region.containsCoordinate)` on a `Region` object to check if a location is within a region.
+        instead, call the `[containsCoordinate()](Modules.Geofence.Region.containsCoordinate)` method 
+        on the newly `Region` object to check if the device is located within it.
 
-        There is a limit to the number of regions that can be monitored at once per application; this limit is enforced by the platform.
-
-        * iOS: 20 Region limit
-        * Android: 100 Region limit
-
-            Geofence.startMonitoringForRegions([region, region1]);
+        Each platform limits the number of regions that can be monitored at one time. On iOS this limit is 20 regions, 
+        and 100 regions on Android. The following example creates a new Region object and then starts monitoring it.
+            
+            var region1 = Geofence.createRegion({
+                center: {
+                    latitude:37.389601,
+                    longitude:-122.050169
+                },
+                radius:500,
+                identifier:'Appcelerator'
+            });
+            Geofence.startMonitoringForRegions(region1);
 
     parameters:
       - name: Region
