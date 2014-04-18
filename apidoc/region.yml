@@ -32,7 +32,7 @@ properties:
   - name: notifyOnEntry
     summary: A boolean that controls whether the region will notify on entry.
     description: |
-        If `true`, an `enterregions` event is generated when the device enters the region.
+        If `true`, an `[enterregions](Modules.Geofence.enterregions)` event is generated when the device enters the region.
         If `false`, no event is generated. Default is `true`.
 
         This property can only be set when calling `[Geofence.createRegion()](Modules.Geofence.createRegion)`.
@@ -41,7 +41,7 @@ properties:
   - name: notifyOnExit
     summary: A boolean that controlls whether the region will notify on exit.
     description: |
-        If `true`, an `exitregions` event is generated when the device exit the region.
+        If `true`, an `[exitregions](Modules.Geofence.exitregions)` event is generated when the device exit the region.
         If `false`, no event is generated. Default is `true`.
 
         This property can only be set when calling `[Geofence.createRegion()](Modules.Geofence.createRegion)`.

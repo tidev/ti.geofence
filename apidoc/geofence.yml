@@ -2,7 +2,10 @@
 name: Modules.Geofence
 summary: Provides a battery-efficient way to monitor a device's movement into or out of a geographic region.
 extends: Titanium.Module
-description: |
+description: |    
+
+    **Note**: The Geofence module is available to Appcelerator Platform customers, only. 
+
     You use the Geofence module to define and monitor geofences in your application. A geofence is a circular
     region defined by a point (a latitude/longitude pair) and a radius, and represented by the
     [Region](Modules.Geofence.Region) object. When a device moves into
@@ -15,7 +18,6 @@ description: |
 
     ## Getting Started
 
-    The Geofence module is available from the [Appcelerator Marketplace](https://marketplace.appcelerator.com).
     Once you've [installed](#!/guide/Using_a_Module) the module, use `require()` to access it from JavaScript:
 
         var Geofence = require("ti.geofence");
@@ -54,7 +56,7 @@ description: |
         })
 
     The event object passed to the event handler contains a `regions` property that identifies the region(s)
-    that were entered or exited. On iOS this property contains an array of Region objects;
+    that were entered or exited. On iOS this property contains an array of [Region](Modules.Geofence.Region) objects;
     on Android, it contains an array of generic objects that each contain a property called
     `identifier`. The value of this property corresponds to the one assigned to the [Region](Modules.Geofence.Region)
     when it was created.
@@ -69,7 +71,7 @@ description: |
 
     ### Mock locations from the iOS Simulator
 
-    Once the application is running in the simulator, select the simulator and go to **Debug**>**Location** and
+    Once the application is running in the simulator, select **Debug** > **Location** in the simulator and
     select a predefined location or route that you would like to be sent to the simulator. You can
     also enter a custom location (latitude, longitude).
 
@@ -142,6 +144,8 @@ methods:
                 radius:30,
                 identifier:'Appcelerator'
             });
+    returns:
+        type: Modules.Geofence.Region    
     parameters:
         - name: object
           summary: Object with properties of the [Region](Modules.Geofence.Region) object.
