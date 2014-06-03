@@ -73,7 +73,7 @@ methods:
             // Should be true
             if(region.containsCoordinate(e.coords)) {
                 var notification = Ti.App.iOS.scheduleLocalNotification({
-                    alertBody:"Point is within region: " + region.identifier;
+                    alertBody:"Point is within region: " + region.identifier
                 });
             }
 
