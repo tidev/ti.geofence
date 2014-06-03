@@ -71,10 +71,11 @@ methods:
             });
 
             // Should be true
-            if(region.containsCoordinate) {
+            if(region.containsCoordinate(e.coords)) {
                 var notification = Ti.App.iOS.scheduleLocalNotification({
-                    alertBody:"Enter Region with ID: " + region.identifier                
-            }));            
+                    alertBody:"Point is within region: " + region.identifier
+                });
+            }
 
     platforms: [ipad, iphone]
     parameters:
