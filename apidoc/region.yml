@@ -1,0 +1,84 @@
+---
+name: Modules.Geofence.Region
+extends: Titanium.Proxy
+summary: Represents a geographic region to be monitored.
+description: |
+    A Region is a circular area defined by a center point (latitude, longitude) and a radius in meters. 
+    Use the [Geofence.createRegion](Modules.Geofence.createRegion) method to create a region.
+since: "3.1.3"
+platforms: [android, iphone, ipad]
+
+properties:
+  - name: identifier
+    summary: The unique identifier of the region.
+    description:
+    type: String
+
+  - name: center
+    summary: An object representing the center coordinate for the region.
+    description: |
+        The object must contain the following properties:
+          
+          * `latitude`: The latitude of the point to be tested
+          * `longitude`: The longitude of the point to be tested
+
+    type: Dictionary
+
+  - name: radius
+    summary: The radius of the region to monitor in meters.
+    description: |
+    type: Number
+
+  - name: notifyOnEntry
+    summary: A boolean that controls whether the region will notify on entry.
+    description: |
+        If `true`, an `[enterregions](Modules.Geofence.enterregions)` event is generated when the device enters the region.
+        If `false`, no event is generated. Default is `true`.
+
+        This property can only be set when calling `[Geofence.createRegion()](Modules.Geofence.createRegion)`.
+    type: Boolean
+
+  - name: notifyOnExit
+    summary: A boolean that controlls whether the region will notify on exit.
+    description: |
+        If `true`, an `[exitregions](Modules.Geofence.exitregions)` event is generated when the device exit the region.
+        If `false`, no event is generated. Default is `true`.
+
+        This property can only be set when calling `[Geofence.createRegion()](Modules.Geofence.createRegion)`.
+
+    type: Boolean
+
+methods:
+
+  - name: containsCoordinate
+    summary: Returns `true` if the coordinates passed to the method represent a point that is within the region.
+    description: |
+        On iOS, if the device is located in a [Region](Modules.Geofence.Region) that has just
+        started being monitored, an `[enterregions](Modules.Geofence.enterregions)` event is not generated. 
+        Instead, when starting to monitor a new region, use this method to check if the device is 
+        located within a the current Region.
+
+        For example, the following code creates a new Region and then immediately checks if the device
+        is located in the newly created region and, if so, displays a notification.
+
+            var region = Geofence.createRegion({
+                center: { 
+                    latitude:37.389601,
+                    longitude:-122.050169
+                },
+                radius:50,
+                identifier:'Appcelerator'
+            });
+
+            // Should be true
+            if(region.containsCoordinate(e.coords)) {
+                var notification = Ti.App.iOS.scheduleLocalNotification({
+                    alertBody:"Point is within region: " + region.identifier
+                });
+            }
+
+    platforms: [ipad, iphone]
+    parameters:
+      - name: point
+        type: Dictionary
+        summary: A Dictionary that defines `latitude` and `longitude` properties.
