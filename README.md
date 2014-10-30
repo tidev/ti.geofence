@@ -6,7 +6,7 @@ Allows for battery friendly monitoring of geofences on a device.
 
 ## Dependencies
 
-This module requires Titanium 3.1.2 or greater.
+This module requires Titanium 3.2.1 or greater.
 
 ## Getting Started
 
