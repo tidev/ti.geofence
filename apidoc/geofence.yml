@@ -288,7 +288,7 @@ events:
       - name: regions
         summary: The regions for which monitoring failed. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions for which monitoring failed. On Android, this property contains an array of generic objects, each of which has an
             `[identifier](Modules.Geofence.Region.identifier)` property that corresponds to the region(s) that were entered.
-        type: Array<Dictionary>|Array<Modules.Geofence.Region>
+        type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: enterregions
     summary: Fired when the device enters a monitored region.
@@ -297,7 +297,7 @@ events:
         summary: The region(s) that were entered. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions that were entered.
             On Android, this property contains an array of generic objects, each of which has an
             `[identifier](Modules.Geofence.Region.identifier)` property that corresponds to the region(s) that were entered.
-        type: Array<Dictionary>|Array<Modules.Geofence.Region>
+        type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: exitregions
     summary: Fired when the device exits a monitored region.
@@ -306,7 +306,7 @@ events:
         summary: The region(s) that were exited. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions that were exited.
             On Android, this property contains an array of generic objects, each of which has an
             `[identifier](Modules.Geofence.Region.identifier)` property that corresponds to the region(s) that were exited.
-        type: Array<Dictionary>|Array<Modules.Geofence.Region>
+        type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: monitorregions
     summary: Fired when `[startMonitoringForRegions()](Module.Geofence.startMonitoringForRegions)` and monitoring has successfully started for those regions.
@@ -315,7 +315,7 @@ events:
         summary: The region(s) for which monitoring has started. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions for which monitoring has started.
             On Android, this property contains an array of generic objects, each of which has an
             `[identifier](Modules.Geofence.Region.identifier)` property that corresponds to the region(s) for which monitoring has started.
-        type: Array<Dictionary>|Array<Modules.Geofence.Region>
+        type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: removeregions
     summary: Fired on Android when regions are removed using `stopMonitoringForRegions` or `stopMonitoringAllRegions` and monitoring has successfully stopped for those regions.
@@ -324,5 +324,5 @@ events:
         summary: The region(s) for which monitoring has stopped. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions for which monitoring has stopped.
             On Android, this property contains an array of generic objects, each of which has an
             `[identifier](Modules.Geofence.Region.identifier)` property that corresponds to the region(s) for which monitoring has stopped.
-        type: Array<Dictionary>|Array<Modules.Geofence.Region>
+        type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
     platforms: [android]
