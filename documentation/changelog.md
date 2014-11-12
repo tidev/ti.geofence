@@ -1,9 +1,9 @@
 # Change Log
 <pre>
 
-Android v1.0.3 Update Google Play Services to v21 [TIMODOPEN-455]
+v1.1.1  Android: Update Google Play Services to v21 [TIMODOPEN-455]
 
-iOS v1.1.0 64 bit support
+v1.1.0  iOS: 64 bit support
 
 v1.0.2  Android: Updating google-play-services.jar [MOD-1775]
 
