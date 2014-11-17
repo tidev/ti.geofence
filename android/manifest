@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 1.1.1
+version: 1.1.2
 apiversion: 2
 description: Monitoring geo regions
 author: Jon Alter
@@ -13,6 +13,6 @@ copyright: Copyright (c) 2013-2014 by Appcelerator, Inc.
 # these should not be edited
 name: geofence
 moduleid: ti.geofence
-guid: ea61d3a7-754a-4fb0-9ed0-e96e59a0e76e
+guid: a2ed656c-026c-461e-bc0d-95e745ab10ae
 platform: android
 minsdk: 3.2.1.GA
