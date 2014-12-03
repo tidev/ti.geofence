@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v1.2.0  [TIMOB-18092] add 64 bit support for iOS
+
 v1.1.2  iOS/Android: module validation fix [MOD-1779]
 
 v1.1.1  Android: Update Google Play Services to v21 [TIMODOPEN-455]
