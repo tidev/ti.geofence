@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v1.1.3  iOS: Update manifest with architectures [TIMOB-18144]
+
 v1.1.2  iOS/Android: module validation fix [MOD-1779]
 
 v1.1.1  Android: Update Google Play Services to v21 [TIMODOPEN-455]
