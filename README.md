@@ -1,4 +1,4 @@
-# ti.geofence Module
+# ti.geofence Module [![Build Status](https://magnum.travis-ci.com/appcelerator-modules/ti.geofence.svg?token=C6poLybMz9ERuFX5KZsz)](https://magnum.travis-ci.com/appcelerator-modules/ti.geofence)
 
 ## Description
 
