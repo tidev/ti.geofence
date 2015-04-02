@@ -31,19 +31,19 @@ properties:
   - name: notifyOnEntry
     summary: A boolean that controls whether the region will notify on entry.
     description: |
-        If `true`, an `[enterregions](Modules.Geofence.enterregions)` event is generated when the device enters the region.
+        If `true`, an [enterregions](Modules.Geofence.enterregions) event is generated when the device enters the region.
         If `false`, no event is generated. Default is `true`.
 
-        This property can only be set when calling `[Geofence.createRegion()](Modules.Geofence.createRegion)`.
+        This property can only be set when calling [Geofence.createRegion()](Modules.Geofence.createRegion).
     type: Boolean
 
   - name: notifyOnExit
     summary: A boolean that controlls whether the region will notify on exit.
     description: |
-        If `true`, an `[exitregions](Modules.Geofence.exitregions)` event is generated when the device exit the region.
+        If `true`, an [exitregions](Modules.Geofence.exitregions) event is generated when the device exit the region.
         If `false`, no event is generated. Default is `true`.
 
-        This property can only be set when calling `[Geofence.createRegion()](Modules.Geofence.createRegion)`.
+        This property can only be set when calling [Geofence.createRegion()](Modules.Geofence.createRegion).
 
     type: Boolean
 
@@ -53,7 +53,7 @@ methods:
     summary: Returns `true` if the coordinates passed to the method represent a point that is within the region.
     description: |
         On iOS, if the device is located in a [Region](Modules.Geofence.Region) that has just
-        started being monitored, an `[enterregions](Modules.Geofence.enterregions)` event is not generated. 
+        started being monitored, an [enterregions](Modules.Geofence.enterregions) event is not generated. 
         Instead, when starting to monitor a new region, use this method to check if the device is 
         located within a the current Region.
 

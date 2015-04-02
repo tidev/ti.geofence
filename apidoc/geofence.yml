@@ -18,13 +18,13 @@ description: |
 
     ## Getting Started
 
-    Once you've [installed](#!/guide/Using_a_Module) the module, use `require()` to access it from JavaScript:
+    Once you've [installed](#!/guide/Using_a_Module) the module, use `require() to access it from JavaScript:
 
         var Geofence = require("ti.geofence");
 
     ### Creating and monitoring geofence regions
 
-    You use the `[Geofence.createRegion()](Modules.Geofence.createRegion)` method to define a [Region](Modules.Geofence.Region) object.
+    You use the [Geofence.createRegion()](Modules.Geofence.createRegion) method to define a [Region](Modules.Geofence.Region) object.
     A geofence is a circular area defined by a point (latitude and longitude) and a radius (in meters).
 
         var newRegion = Geofence.createRegion({
@@ -36,13 +36,13 @@ description: |
             identifier:'Appcelerator'
         });
 
-    To start monitoring a region, call the `[Geofence.startMonitoringForRegions()](Modules.Geofence.startMonitoringForRegions)` method, passing it the
+    To start monitoring a region, call the [Geofence.startMonitoringForRegions()](Modules.Geofence.startMonitoringForRegions) method, passing it the
     region or regions you want to monitor.
 
         Geofence.startMonitoringForRegions([region1, region2]);
 
     To be notified when the device moves into or out of a geofence region, create an event listener
-    for the `[enterregions](Modules.Geofence.enterregions)` or `[exitregions](Modules.Geofence.exitregions)` events, respectively.
+    for the [enterregions](Modules.Geofence.enterregions) or [exitregions](Modules.Geofence.exitregions) events, respectively.
     For example:
 
         Geofence.addEventListener("enterregion", function(e) {
@@ -122,7 +122,7 @@ methods:
   - name: isGooglePlayServicesAvailable
     summary: Returns a number value indicating the availability of Google Play Services which are required to monitor regions.
     description: |
-        Possible values include `[SUCCESS](Modules.Geofence.SUCCESS)`, `[SERVICE_MISSING](Modules.Geofence.SERVICE_MISSING)`, `[SERVICE_VERSION_UPDATE_REQUIRED](Modules.Geofence.SERVICE_VERSION_UPDATE_REQUIRED)`, `[SERVICE_DISABLED](Modules.Geofence.SERVICE_DISABLED)`, and `[SERVICE_INVALID](Modules.Geofence.SERVICE_INVALID)`.
+        Possible values include [SUCCESS](Modules.Geofence.SUCCESS), [SERVICE_MISSING](Modules.Geofence.SERVICE_MISSING), [SERVICE_VERSION_UPDATE_REQUIRED](Modules.Geofence.SERVICE_VERSION_UPDATE_REQUIRED), [SERVICE_DISABLED](Modules.Geofence.SERVICE_DISABLED), and [SERVICE_INVALID](Modules.Geofence.SERVICE_INVALID).
         Example:
 
             var hasGooglePlayServices = Geofence.isGooglePlayServicesAvailable();
@@ -158,9 +158,9 @@ methods:
         [Region](Modules.Geofence.Region) object as an argument.
 
         On Android, if the device is located in a [Region](Modules.Geofence.Region) that has just
-        started being monitored, an `[enterregions](Modules.Geofence.enterregions)`
+        started being monitored, an [enterregions](Modules.Geofence.enterregions)
         event is generated. On iOS, this scenario will not generate an `enterregions` event;
-        instead, call the `[containsCoordinate()](Modules.Geofence.Region.containsCoordinate)` method 
+        instead, call the [containsCoordinate()](Modules.Geofence.Region.containsCoordinate) method 
         on the newly `Region` object to check if the device is located within it.
 
         Each platform limits the number of regions that can be monitored at one time. On iOS this limit is 20 regions, 
@@ -216,59 +216,59 @@ properties:
             var regions = Geofence.monitoredRegions;
 
     permission: read-only
-    type: Array
+    type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
     platforms: [iphone, ipad]
 
   - name: SUCCESS
-    summary: Returned by `[isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable)` if the connection to Google Play services was successful.
+    summary: Returned by [isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable) if the connection to Google Play services was successful.
     type: Number
     permission: read-only
     platforms: [android]
 
   - name: SERVICE_MISSING
-    summary: Returned by `[isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable)` if Google Play services is missing on this device.
+    summary: Returned by [isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable) if Google Play services is missing on this device.
     type: Number
     permission: read-only
     platforms: [android]
 
   - name: SERVICE_VERSION_UPDATE_REQUIRED
-    summary: Returned by `[isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable)` if the installed version of Google Play services is out of date.
+    summary: Returned by [isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable) if the installed version of Google Play services is out of date.
     type: Number
     permission: read-only
     platforms: [android]
 
   - name: SERVICE_DISABLED
-    summary: Returned by `[isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable)` if the installed version of Google Play services has been disabled on this device.
+    summary: Returned by [isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable) if the installed version of Google Play services has been disabled on this device.
     type: Number
     permission: read-only
     platforms: [android]
 
   - name: SERVICE_INVALID
-    summary: Returned by `[isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable)` if the version of the Google Play services installed on this device is not authentic.
+    summary: Returned by [isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable) if the version of the Google Play services installed on this device is not authentic.
     type: Number
     permission: read-only
     platforms: [android]
 
   - name: LOCATION_STATUS_ERROR
-    summary: Possible value of the `errorcode` property in the `[error](Modules.Geofence.error)` event object indicating an unspecified error occurred.
+    summary: Possible value of the `errorcode` property in the [error](Modules.Geofence.error) event object indicating an unspecified error occurred.
     type: Number
     permission: read-only
     platforms: [android]
 
   - name: LOCATION_STATUS_GEOFENCE_NOT_AVAILABLE
-    summary: Possible value of the `errorcode` property in the `[error](Modules.Geofence.error)` event object indicating the geofence service is not available now.
+    summary: Possible value of the `errorcode` property in the [error](Modules.Geofence.error) event object indicating the geofence service is not available now.
     type: Number
     permission: read-only
     platforms: [android]
 
   - name: LOCATION_STATUS_GEOFENCE_TOO_MANY_GEOFENCES
-    summary: Possible value of the `errorcode` property in the `[error](Modules.Geofence.error)` event object indicating your application has registered more than 100 geofences.
+    summary: Possible value of the `errorcode` property in the [error](Modules.Geofence.error) event object indicating your application has registered more than 100 geofences.
     type: Number
     permission: read-only
     platforms: [android]
 
   - name: LOCATION_STATUS_GEOFENCE_TOO_MANY_PENDING_INTENTS
-    summary: Possible value of the `errorcode` property in the `[error](Modules.Geofence.error)` event object.
+    summary: Possible value of the `errorcode` property in the [error](Modules.Geofence.error) event object.
     type: Number
     permission: read-only
     platforms: [android]
@@ -287,7 +287,7 @@ events:
         type: Number
       - name: regions
         summary: The regions for which monitoring failed. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions for which monitoring failed. On Android, this property contains an array of generic objects, each of which has an
-            `[identifier](Modules.Geofence.Region.identifier)` property that corresponds to the region(s) that were entered.
+            [identifier](Modules.Geofence.Region.identifier) property that corresponds to the region(s) that were entered.
         type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: enterregions
@@ -296,7 +296,7 @@ events:
       - name: regions
         summary: The region(s) that were entered. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions that were entered.
             On Android, this property contains an array of generic objects, each of which has an
-            `[identifier](Modules.Geofence.Region.identifier)` property that corresponds to the region(s) that were entered.
+            [identifier](Modules.Geofence.Region.identifier) property that corresponds to the region(s) that were entered.
         type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: exitregions
@@ -305,16 +305,16 @@ events:
       - name: regions
         summary: The region(s) that were exited. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions that were exited.
             On Android, this property contains an array of generic objects, each of which has an
-            `[identifier](Modules.Geofence.Region.identifier)` property that corresponds to the region(s) that were exited.
+            [identifier](Modules.Geofence.Region.identifier) property that corresponds to the region(s) that were exited.
         type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: monitorregions
-    summary: Fired when `[startMonitoringForRegions()](Module.Geofence.startMonitoringForRegions)` and monitoring has successfully started for those regions.
+    summary: Fired when [startMonitoringForRegions()](Module.Geofence.startMonitoringForRegions) and monitoring has successfully started for those regions.
     properties:
       - name: regions
         summary: The region(s) for which monitoring has started. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions for which monitoring has started.
             On Android, this property contains an array of generic objects, each of which has an
-            `[identifier](Modules.Geofence.Region.identifier)` property that corresponds to the region(s) for which monitoring has started.
+            [identifier](Modules.Geofence.Region.identifier) property that corresponds to the region(s) for which monitoring has started.
         type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: removeregions
@@ -323,6 +323,6 @@ events:
       - name: regions
         summary: The region(s) for which monitoring has stopped. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions for which monitoring has stopped.
             On Android, this property contains an array of generic objects, each of which has an
-            `[identifier](Modules.Geofence.Region.identifier)` property that corresponds to the region(s) for which monitoring has stopped.
+            [identifier](Modules.Geofence.Region.identifier) property that corresponds to the region(s) for which monitoring has stopped.
         type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
     platforms: [android]
