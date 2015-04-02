@@ -18,7 +18,7 @@ description: |
 
     ## Getting Started
 
-    Once you've [installed](#!/guide/Using_a_Module) the module, use `require() to access it from JavaScript:
+    Once you've [installed](#!/guide/Using_a_Module) the module, use `require()` to access it from JavaScript:
 
         var Geofence = require("ti.geofence");
 
@@ -216,7 +216,7 @@ properties:
             var regions = Geofence.monitoredRegions;
 
     permission: read-only
-    type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
+    type: Array<Modules.Geofence.Region>
     platforms: [iphone, ipad]
 
   - name: SUCCESS
