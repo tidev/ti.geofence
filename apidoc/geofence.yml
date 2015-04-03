@@ -3,8 +3,7 @@ name: Modules.Geofence
 summary: Provides a battery-efficient way to monitor a device's movement into or out of a geographic region.
 extends: Titanium.Module
 description: |    
-
-    **Note**: The Geofence module is available to Appcelerator Platform customers, only. 
+    <p class="note">This feature requires a Team or Enterprise subscription!</p>
 
     You use the Geofence module to define and monitor geofences in your application. A geofence is a circular
     region defined by a point (a latitude/longitude pair) and a radius, and represented by the
@@ -309,7 +308,7 @@ events:
         type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: monitorregions
-    summary: Fired when [startMonitoringForRegions()](Module.Geofence.startMonitoringForRegions) and monitoring has successfully started for those regions.
+    summary: Fired when [startMonitoringForRegions()](Modules.Geofence.startMonitoringForRegions) and monitoring has successfully started for those regions.
     properties:
       - name: regions
         summary: The region(s) for which monitoring has started. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions for which monitoring has started.
