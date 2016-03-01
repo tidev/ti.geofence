@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v1.1.4  Updated Docs [TIDOC-2150]
+
 v1.1.3  Updated manifest with architectures [TIMOB-18144]
 
 v1.1.2  iOS/Android: module validation fix [MOD-1779]
