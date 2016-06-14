@@ -219,8 +219,10 @@ Geofence.addEventListener('exitregions', function(e) {
 Geofence.addEventListener('monitorregions', function(e) {
     // Triggered when new regions are added to be monitored
     logInApp('####### monitorregion #######: ' + JSON.stringify(e));
-    for (var i = 0, j = e.regions.length; i < j; i++) {
-        logInApp('Region id: ' + e.regions[i].identifier);
+    if (IOS) {
+        for (var i = 0, j = e.regions.length; i < j; i++) {
+            logInApp('Region id: ' + e.regions[i].identifier);
+        }
     }
 });
 

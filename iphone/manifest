@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 1.1.4
+version: 1.1.5
 apiversion: 2
 architectures: armv7 i386 x86_64 arm64
 description: Monitoring geo regions
@@ -16,4 +16,4 @@ name: geofence
 moduleid: ti.geofence
 guid: a2ed656c-026c-461e-bc0d-95e745ab10ae
 platform: iphone
-minsdk: 3.2.2.GA
+minsdk: 5.0.0.GA

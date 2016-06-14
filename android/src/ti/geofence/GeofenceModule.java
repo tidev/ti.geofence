@@ -99,7 +99,6 @@ public class GeofenceModule extends KrollModule
     {
         // This method is called when the root context is being destroyed
         LocalBroadcastManager.getInstance(TiApplication.getAppRootOrCurrentActivity()).unregisterReceiver(mBroadcastReceiver);
-
         super.onDestroy(activity);
     }
     
