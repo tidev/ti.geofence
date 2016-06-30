@@ -312,8 +312,7 @@ events:
     properties:
       - name: regions
         summary: The region(s) for which monitoring has started. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions for which monitoring has started.
-            On Android, this property contains an array of generic objects, each of which has an
-            [identifier](Modules.Geofence.Region.identifier) property that corresponds to the region(s) for which monitoring has started.
+            On Android, there is no property for you to check.
         type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: removeregions

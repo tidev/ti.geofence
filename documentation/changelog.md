@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v1.1.5  Android: Refactor Geofence Module with Google Play Services (Base and Location) version 7.5.0 [MOD-2257]
+
 v1.1.4  Updated Docs [TIDOC-2150]
 
 v1.1.3  Updated manifest with architectures [TIMOB-18144]

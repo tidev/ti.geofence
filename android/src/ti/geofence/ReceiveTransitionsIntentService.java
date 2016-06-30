@@ -15,7 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.GeofencingEvent;
 
 /**
  * This class receives geofence transition events from Location Services, in the
@@ -44,13 +44,14 @@ public class ReceiveTransitionsIntentService extends IntentService {
 
         // Give it the category for all intents sent by the Intent Service
         broadcastIntent.addCategory(GeofenceUtils.CATEGORY_LOCATION_SERVICES);
-
-        // First check for errors
-        if (LocationClient.hasError(intent)) {
-
+        
+        GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
+        
+        
+     // First check for errors
+        if (geofencingEvent.hasError()) {
             // Get the error code
-            int errorCode = LocationClient.getErrorCode(intent);
-            
+            int errorCode = geofencingEvent.getErrorCode();
             // Set the action and error message for the broadcast intent
             broadcastIntent.setAction(GeofenceUtils.ACTION_GEOFENCE_ERROR)
                              .putExtra(GeofenceUtils.EXTRA_GEOFENCE_STATUS, errorCode);
@@ -62,7 +63,8 @@ public class ReceiveTransitionsIntentService extends IntentService {
         } else {
 
             // Get the type of transition (entry or exit)
-            int transition = LocationClient.getGeofenceTransition(intent);
+            //int transition = LocationClient.getGeofenceTransition(intent);
+            int transition = geofencingEvent.getGeofenceTransition();
 
             // Test that a valid transition was reported
             if (
@@ -72,7 +74,8 @@ public class ReceiveTransitionsIntentService extends IntentService {
                ) {
 
                 // Post a notification
-                List<Geofence> geofences = LocationClient.getTriggeringGeofences(intent);
+                List<Geofence> geofences = geofencingEvent.getTriggeringGeofences();
+               // List<Geofence> geofences = LocationClient.getTriggeringGeofences(intent);
                 String[] geofenceIds = new String[geofences.size()];
                 for (int index = 0; index < geofences.size() ; index++) {
                     geofenceIds[index] = geofences.get(index).getRequestId();
