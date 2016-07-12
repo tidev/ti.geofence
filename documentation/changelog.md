@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v2.0.0  Android: Recompile ti.geofence module against latest SDK [TIMOB-23597]
+
 v1.1.5  Android: Refactor Geofence Module with Google Play Services (Base and Location) version 7.5.0 [MOD-2257]
 
 v1.1.4  Updated Docs [TIDOC-2150]
