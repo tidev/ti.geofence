@@ -13,7 +13,7 @@
                 <service android:name="ti.geofence.ReceiveTransitionsIntentService" android:exported="false"></service>
                 <meta-data
                      android:name="com.google.android.gms.version"
-                     android:value="6171000"/>
+                     android:value="9683000"/>
             </application>
         </manifest>
     </android>
