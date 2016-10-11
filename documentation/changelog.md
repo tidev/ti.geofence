@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v2.0.1  Android: Update Google Play services to v9.6.1 (rev 33) [TIMOB-24010]
+
 v2.0.0  Android: Recompile ti.geofence module against latest SDK [TIMOB-23597]
 
 v1.1.5  Android: Refactor Geofence Module with Google Play Services (Base and Location) version 7.5.0 [MOD-2257]
