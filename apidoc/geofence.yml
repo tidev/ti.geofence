@@ -3,7 +3,7 @@ name: Modules.Geofence
 summary: Provides a battery-efficient way to monitor a device's movement into or out of a geographic region.
 extends: Titanium.Module
 description: |    
-    <p class="note">This feature requires a Team or Enterprise subscription!</p>
+    <p class="note">This feature requires a Pro or Enterprise subscription!</p>
 
     You use the Geofence module to define and monitor geofences in your application. A geofence is a circular
     region defined by a point (a latitude/longitude pair) and a radius, and represented by the
