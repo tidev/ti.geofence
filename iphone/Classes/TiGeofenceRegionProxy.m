@@ -12,10 +12,10 @@
 
 @synthesize region = _region;
 
--(TiGeofenceRegionProxy *)initWithRegion:(CLRegion *)region pageContext:(id<TiEvaluator>)context
+-(TiGeofenceRegionProxy *)initWithRegion:(CLCircularRegion *)region pageContext:(id<TiEvaluator>)context
 {
     if (self = [super _initWithPageContext:context]) {
-        _region = [region retain];
+        _region = region;
     }
     return self;
 }
@@ -61,15 +61,9 @@
         [self throwException:[NSString stringWithFormat:@"`center.longitude` is required"] subreason:nil location:CODELOCATION];
     }
     
-    _region = [[CLRegion alloc] initCircularRegionWithCenter:centerCoord radius:radius identifier:identifier];
+    _region = [[CLCircularRegion alloc] initWithCenter:centerCoord radius:radius identifier:identifier];
     
     [super _initWithProperties:properties];
-}
-
--(void)dealloc
-{
-    RELEASE_TO_NIL(_region);
-    [super dealloc];
 }
 
 #pragma mark Public APIs
@@ -91,26 +85,18 @@
 // Radius is in meters
 -(id)radius
 {
-    return [NSNumber numberWithDouble:[_region radius]];
+    return NUMDOUBLE([_region radius]);
 }
 
 // Defaults to YES if not set
 -(void)setNotifyOnEntry:(id)value
 {
-    if (![TiUtils isIOS7OrGreater]) {
-        [TiGeofenceModule logAddedIniOS7Warning:@"notifyOnEntry"];
-        return;
-    }
     [_region setNotifyOnEntry:[TiUtils boolValue:value def:YES]];
 }
 
 // Defaults to YES if not set
 -(void)setNotifyOnExit:(id)value
 {
-    if (![TiUtils isIOS7OrGreater]) {
-        [TiGeofenceModule logAddedIniOS7Warning:@"notifyOnExit"];
-        return;
-    }
     [_region setNotifyOnExit:[TiUtils boolValue:value def:YES]];
 }
 

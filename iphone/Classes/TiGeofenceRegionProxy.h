@@ -11,8 +11,8 @@
 @private
     
 }
-@property(readonly, nonatomic)CLRegion *region;
+@property(readonly, nonatomic) CLCircularRegion *region;
 
--(TiGeofenceRegionProxy *)initWithRegion:(CLRegion *)region pageContext:(id<TiEvaluator>)context;
+-(TiGeofenceRegionProxy *)initWithRegion:(CLCircularRegion *)region pageContext:(id<TiEvaluator>)context;
 
 @end

@@ -13,6 +13,4 @@
     CLLocationManager *locationManager;
 }
 
-+(void)logAddedIniOS7Warning:(NSString*)name;
-
 @end

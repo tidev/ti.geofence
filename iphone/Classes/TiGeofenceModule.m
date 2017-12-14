@@ -48,13 +48,6 @@ for (id r in arr) { \
 
 #pragma mark Cleanup 
 
--(void)dealloc
-{
-    RELEASE_TO_NIL(locationManager);
-    // release any resources that have been retained by the module
-    [super dealloc];
-}
-
 #pragma mark Internal Memory Management
 
 -(void)didReceiveMemoryWarning:(NSNotification*)notification
@@ -69,7 +62,7 @@ for (id r in arr) { \
 -(CLLocationManager*)locationManager
 {
     if (locationManager == nil) {
-        if ([CLLocationManager regionMonitoringAvailable]) {
+        if ([CLLocationManager isMonitoringAvailableForClass:[CLRegion class]]) {
             // CLLocationManager must be initialized on the UI Thread
             TiThreadPerformOnMainThread(^{
                 locationManager = [[CLLocationManager alloc] init];
@@ -103,7 +96,7 @@ for (id r in arr) { \
         // Passing an array of regions for parity with Android
         NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
                                [TiGeofenceModule messageFromError:error], @"error",
-                               [self arrayWithTiRegionsFromRegion:region], @"regions",
+                               [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
                                nil];
         [self fireEvent:@"error" withObject:event];
     }
@@ -115,7 +108,7 @@ for (id r in arr) { \
     {
         // Passing an array of regions for parity with Android
         NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                               [self arrayWithTiRegionsFromRegion:region], @"regions",
+                               [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
                                nil];
         [self fireEvent:@"enterregions" withObject:event];
     }
@@ -127,7 +120,7 @@ for (id r in arr) { \
     {
         // Passing an array of regions for parity with Android
         NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                               [self arrayWithTiRegionsFromRegion:region], @"regions",
+                               [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
                                nil];
         [self fireEvent:@"exitregions" withObject:event];
     }
@@ -139,7 +132,7 @@ for (id r in arr) { \
     {
         // Passing an array of regions for parity with Android
         NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                               [self arrayWithTiRegionsFromRegion:region], @"regions",
+                               [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
                                nil];
         [self fireEvent:@"monitorregions" withObject:event];
     }
@@ -149,7 +142,7 @@ for (id r in arr) { \
 
 -(id)regionMonitoringAvailable:(id)args
 {
-    return NUMBOOL([CLLocationManager regionMonitoringAvailable]);
+    return NUMBOOL([CLLocationManager isMonitoringAvailableForClass:[CLRegion class]]);
 }
 
 -(void)startMonitoringForRegions:(id)args
@@ -161,13 +154,14 @@ for (id r in arr) { \
         // CLLocationManager methods must be called on the UI thread
         TiThreadPerformOnMainThread(^{
             for (id region in args) {
-                [[self locationManager] startMonitoringForRegion:[region region]];
+                ENSURE_TYPE(region, TiGeofenceRegionProxy);
+                [[self locationManager] startMonitoringForRegion:[(TiGeofenceRegionProxy *)region region]];
             }
         }, NO);
     } else {
         ENSURE_TYPE(args, TiGeofenceRegionProxy);
         TiThreadPerformOnMainThread(^{
-            [[self locationManager] startMonitoringForRegion:[args region]];
+            [[self locationManager] startMonitoringForRegion:[(TiGeofenceRegionProxy *)args region]];
         }, NO);
     }
 }
@@ -182,13 +176,14 @@ for (id r in arr) { \
         // CLLocationManager methods must be called on the UI thread
         TiThreadPerformOnMainThread(^{
             for (id region in args) {
-                [[self locationManager] stopMonitoringForRegion:[region region]];
+                ENSURE_TYPE(region, TiGeofenceRegionProxy);
+                [[self locationManager] stopMonitoringForRegion:[(TiGeofenceRegionProxy *)region region]];
             }
         }, NO);
     } else {
         ENSURE_TYPE(args, TiGeofenceRegionProxy);
         TiThreadPerformOnMainThread(^{
-            [[self locationManager] stopMonitoringForRegion:[args region]];
+            [[self locationManager] stopMonitoringForRegion:[(TiGeofenceRegionProxy *)args region]];
         }, NO);
     }
 }
@@ -197,7 +192,7 @@ for (id r in arr) { \
 {
     ENSURE_UI_THREAD(stopMonitoringAllRegions, args);
     NSArray *regions = [[[self locationManager] monitoredRegions] allObjects];
-    for (CLRegion *region in regions) {
+    for (CLCircularRegion *region in regions) {
         [[self locationManager] stopMonitoringForRegion:region];
     }
 }
@@ -206,20 +201,14 @@ for (id r in arr) { \
 {
     NSArray *regions = [[[self locationManager] monitoredRegions] allObjects];
     NSMutableArray *tiRegions = [NSMutableArray arrayWithCapacity:regions.count];
-    for (CLRegion *region in regions) {
+    for (CLCircularRegion *region in regions) {
         TiGeofenceRegionProxy *newRegion = [[TiGeofenceRegionProxy alloc] initWithRegion:region pageContext:[self executionContext]];
         [tiRegions addObject:newRegion];
-        [newRegion release];
     }
     return tiRegions;
 }
 
 #pragma mark Utils
-
-+(void)logAddedIniOS7Warning:(NSString*)name
-{
-    NSLog(@"[WARN] `%@` is only supported on iOS 7 and greater.", name);
-}
 
 +(NSString*)messageFromError:(NSError *)error
 {
@@ -230,12 +219,9 @@ for (id r in arr) { \
     return [error localizedDescription];
 }
 
--(NSArray*)arrayWithTiRegionsFromRegion:(CLRegion *)region
+-(NSArray*)arrayWithTiRegionsFromRegion:(CLCircularRegion *)region
 {
-    TiGeofenceRegionProxy *tiRegion = [[TiGeofenceRegionProxy alloc] initWithRegion:region pageContext:[self executionContext]];
-    NSArray *regions = [NSArray arrayWithObject:tiRegion];
-    [tiRegion release];
-    return regions;
+    return @[[[TiGeofenceRegionProxy alloc] initWithRegion:region pageContext:[self executionContext]]];
 }
 
 @end

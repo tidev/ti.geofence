@@ -2,13 +2,13 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 1.1.5
+version: 1.1.6
 apiversion: 2
 architectures: armv7 i386 x86_64 arm64
 description: Monitoring geo regions
-author: Jon Alter
+author: Jon Alter, Hans Knoechel
 license: Appcelerator Commercial License 
-copyright: Copyright (c) 2013-2014 by Appcelerator, Inc.
+copyright: Copyright (c) 2013-2017 by Appcelerator, Inc.
 
 
 # these should not be edited
@@ -16,4 +16,4 @@ name: geofence
 moduleid: ti.geofence
 guid: a2ed656c-026c-461e-bc0d-95e745ab10ae
 platform: iphone
-minsdk: 5.0.0.GA
+minsdk: 6.0.0.GA
