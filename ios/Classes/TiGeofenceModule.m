@@ -53,6 +53,13 @@
   return NUMBOOL([CLLocationManager isMonitoringAvailableForClass:[CLRegion class]]);
 }
 
+- (void)requestStateForRegion:(id)region
+{
+  ENSURE_SINGLE_ARG(region, TiGeofenceRegionProxy);
+
+  [[self locationManager] requestStateForRegion:[(TiGeofenceRegionProxy *)region region]];
+}
+
 - (void)startMonitoringForRegions:(id)args
 {
   // Validation must be done outside of the UI thread or the app will just die without notification
@@ -125,8 +132,8 @@
 {
   if ([self _hasListeners:@"error"]) {
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [TiGeofenceModule messageFromError:error], @"error",
-                           nil];
+                                            [TiGeofenceModule messageFromError:error], @"error",
+                                        nil];
     [self fireEvent:@"error" withObject:event];
   }
 }
@@ -136,9 +143,9 @@
   if ([self _hasListeners:@"error"]) {
     // Passing an array of regions for parity with Android
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [TiGeofenceModule messageFromError:error], @"error",
-                           [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
-                           nil];
+                                            [TiGeofenceModule messageFromError:error], @"error",
+                                        [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
+                                        nil];
     [self fireEvent:@"error" withObject:event];
   }
 }
@@ -148,8 +155,8 @@
   if ([self _hasListeners:@"enterregions"]) {
     // Passing an array of regions for parity with Android
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
-                           nil];
+                                            [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
+                                        nil];
     [self fireEvent:@"enterregions" withObject:event];
   }
 }
@@ -159,8 +166,8 @@
   if ([self _hasListeners:@"exitregions"]) {
     // Passing an array of regions for parity with Android
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
-                           nil];
+                                            [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
+                                        nil];
     [self fireEvent:@"exitregions" withObject:event];
   }
 }
@@ -170,9 +177,17 @@
   if ([self _hasListeners:@"monitorregions"]) {
     // Passing an array of regions for parity with Android
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
-                           nil];
+                                            [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
+                                        nil];
     [self fireEvent:@"monitorregions" withObject:event];
+  }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
+{
+  if ([self _hasListeners:@"regionstate"]) {
+    NSDictionary *event = @{ @"region" : [[TiGeofenceRegionProxy alloc] _initWithPageContext:[self executionContext] andRegion:(CLCircularRegion *)region] };
+    [self fireEvent:@"regionstate" withObject:event];
   }
 }
 
@@ -201,7 +216,7 @@
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
       },
-                                  YES);
+          YES);
     } else {
       NSLog(@"[WARN] Region Monitoring not available.");
       return nil;
@@ -209,4 +224,9 @@
   }
   return _locationManager;
 }
+
+MAKE_SYSTEM_PROP(REGION_STATE_UNKNOWN, CLRegionStateUnknown);
+MAKE_SYSTEM_PROP(REGION_STATE_INSIDE, CLRegionStateInside);
+MAKE_SYSTEM_PROP(REGION_STATE_OUTSIDE, CLRegionStateOutside);
+
 @end

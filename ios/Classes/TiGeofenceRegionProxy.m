@@ -65,7 +65,8 @@
 
 - (NSDictionary *)center
 {
-  return @{ @"latitude": NUMDOUBLE([_region center].latitude), @"longitude": NUMDOUBLE([_region center].longitude) };
+  return @{ @"latitude" : NUMDOUBLE([_region center].latitude),
+    @"longitude" : NUMDOUBLE([_region center].longitude) };
 }
 
 - (NSNumber *)radius

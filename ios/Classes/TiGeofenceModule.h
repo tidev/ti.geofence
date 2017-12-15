@@ -12,6 +12,8 @@
   CLLocationManager *_locationManager;
 }
 
+- (void)requestStateForRegion:(id)region;
+
 - (NSNumber *)regionMonitoringAvailable:(id)args;
 
 - (void)startMonitoringForRegions:(id)args;

@@ -44,7 +44,7 @@ description: |
     for the [enterregions](Modules.Geofence.enterregions) or [exitregions](Modules.Geofence.exitregions) events, respectively.
     For example:
 
-        Geofence.addEventListener("enterregion", function(e) {
+        Geofence.addEventListener('enterregion', function(e) {
             // Display local notification
             for (var i = 0, j = e.regions.length; i < j; i++) {
                 showNotification({
@@ -117,6 +117,12 @@ methods:
     platforms: [iphone, ipad]
     returns:
         type: Boolean
+        
+  - name: requestStateForRegion
+    summary: Asynchronously retrieve the cached state of the specified region.
+    description:  The state is returned to the delegate via the `regionstate` event.
+    platforms: [iphone, ipad]
+    since: "7.1.0"
 
   - name: isGooglePlayServicesAvailable
     summary: Returns a number value indicating the availability of Google Play Services which are required to monitor regions.
@@ -272,6 +278,27 @@ properties:
     permission: read-only
     platforms: [android]
 
+  - name: REGION_STATE_UNKNOWN
+    summary: Possible value of the `state` property in the [regionstate](Modules.Geofence.regionstate) event object.
+    description: It is unknown whether the location is inside or outside of the region.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+
+  - name: REGION_STATE_INSIDE
+    summary: Possible value of the `state` property in the [regionstate](Modules.Geofence.regionstate) event object.
+    description: The location is inside the given region. 
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+
+  - name: REGION_STATE_OUTSIDE
+    summary: Possible value of the `state` property in the [regionstate](Modules.Geofence.regionstate) event object.
+    description: The location is outside of the given region.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+
 events:
 
   - name: error
@@ -314,6 +341,19 @@ events:
         summary: The region(s) for which monitoring has started. On iOS, this property contains an array of [Region](Modules.Geofence.Region) objects representing the regions for which monitoring has started.
             On Android, there is no property for you to check.
         type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
+
+  - name: regionstate
+    summary: | 
+        Fired when [requestStateForRegion()](Modules.Geofence.requestStateForRegion) requested a state or there's
+        a state transition for a monitored region.
+    properties:
+      - name: region
+        summary: The region that triggered the state change.
+        type: Modules.Geofence.Region
+      - name: state
+        summary: The updated region state. One of `REGION_STATE_*`.
+        constants: [Modules.Geofence.REGION_STATE_*]
+        type: Number
 
   - name: removeregions
     summary: Fired on Android when regions are removed using `stopMonitoringForRegions` or `stopMonitoringAllRegions` and monitoring has successfully stopped for those regions.
