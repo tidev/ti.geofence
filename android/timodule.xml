@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:module xmlns:ti="http://ti.appcelerator.org" xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--
-        Similar to tiapp.xml, but contains module/platform specific
-        configuration in <iphone>, <android>, and <mobileweb> sections
-    -->
-    <iphone>
-    </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <manifest>
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
             <application>
                 <service android:name="ti.geofence.ReceiveTransitionsIntentService" android:exported="false"></service>
-                <meta-data
-                     android:name="com.google.android.gms.version"
-                     android:value="9683000"/>
             </application>
         </manifest>
     </android>
-    <mobileweb>
-    </mobileweb>
+    <modules>
+        <module platform="android">ti.playservices</module>
+    </modules>
 </ti:module>
