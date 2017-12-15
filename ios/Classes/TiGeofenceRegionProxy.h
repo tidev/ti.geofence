@@ -4,15 +4,14 @@
  * Proprietary and Confidential - This source code is not for redistribution
  */
 
-#import <CoreLocation/CoreLocation.h>
 #import "TiProxy.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface TiGeofenceRegionProxy : TiProxy {
-@private
-    
+  @private
 }
-@property(readonly, nonatomic) CLCircularRegion *region;
+@property (readonly, nonatomic) CLCircularRegion *region;
 
--(TiGeofenceRegionProxy *)initWithRegion:(CLCircularRegion *)region pageContext:(id<TiEvaluator>)context;
+- (TiGeofenceRegionProxy *)initWithRegion:(CLCircularRegion *)region pageContext:(id<TiEvaluator>)context;
 
 @end

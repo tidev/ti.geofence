@@ -4,13 +4,12 @@
  * Proprietary and Confidential - This source code is not for redistribution
  */
 
-#import <CoreLocation/CoreLocation.h>
 #import "TiModule.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface TiGeofenceModule : TiModule <CLLocationManagerDelegate>
-{
-@private
-    CLLocationManager *locationManager;
+@interface TiGeofenceModule : TiModule <CLLocationManagerDelegate> {
+  @private
+  CLLocationManager *locationManager;
 }
 
 @end
