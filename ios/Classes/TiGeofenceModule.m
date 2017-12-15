@@ -1,6 +1,6 @@
 /**
  * Appcelerator Titanium Mobile Modules
- * Copyright (c) 2013 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2013-present by Appcelerator, Inc. All Rights Reserved.
  * Proprietary and Confidential - This source code is not for redistribution
  */
 
@@ -46,97 +46,9 @@
   NSLog(@"[INFO] %@ loaded", self);
 }
 
-#pragma mark Cleanup
-
-#pragma mark Internal Memory Management
-
-- (void)didReceiveMemoryWarning:(NSNotification *)notification
-{
-  // optionally release any resources that can be dynamically
-  // reloaded once memory is available - such as caches
-  [super didReceiveMemoryWarning:notification];
-}
-
-#pragma mark Utils
-
-- (CLLocationManager *)locationManager
-{
-  if (locationManager == nil) {
-    if ([CLLocationManager isMonitoringAvailableForClass:[CLRegion class]]) {
-      // CLLocationManager must be initialized on the UI Thread
-      TiThreadPerformOnMainThread(^{
-        locationManager = [[CLLocationManager alloc] init];
-        locationManager.delegate = self;
-      },
-          YES);
-    } else {
-      NSLog(@"[WARN] Region Monitoring Not Available.");
-      return nil;
-    }
-  }
-  return locationManager;
-}
-
-#pragma mark CLLocationManagerDelegate
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-  if ([self _hasListeners:@"error"]) {
-    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            [TiGeofenceModule messageFromError:error], @"error",
-                                        nil];
-    [self fireEvent:@"error" withObject:event];
-  }
-}
-
-- (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
-{
-  if ([self _hasListeners:@"error"]) {
-    // Passing an array of regions for parity with Android
-    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            [TiGeofenceModule messageFromError:error], @"error",
-                                        [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
-                                        nil];
-    [self fireEvent:@"error" withObject:event];
-  }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
-{
-  if ([self _hasListeners:@"enterregions"]) {
-    // Passing an array of regions for parity with Android
-    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
-                                        nil];
-    [self fireEvent:@"enterregions" withObject:event];
-  }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
-{
-  if ([self _hasListeners:@"exitregions"]) {
-    // Passing an array of regions for parity with Android
-    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
-                                        nil];
-    [self fireEvent:@"exitregions" withObject:event];
-  }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
-{
-  if ([self _hasListeners:@"monitorregions"]) {
-    // Passing an array of regions for parity with Android
-    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
-                                        nil];
-    [self fireEvent:@"monitorregions" withObject:event];
-  }
-}
-
 #pragma Public APIs
 
-- (id)regionMonitoringAvailable:(id)args
+- (NSNumber *)regionMonitoringAvailable:(id)args
 {
   return NUMBOOL([CLLocationManager isMonitoringAvailableForClass:[CLRegion class]]);
 }
@@ -201,18 +113,75 @@
   NSArray *regions = [[[self locationManager] monitoredRegions] allObjects];
   NSMutableArray *tiRegions = [NSMutableArray arrayWithCapacity:regions.count];
   for (CLCircularRegion *region in regions) {
-    TiGeofenceRegionProxy *newRegion = [[TiGeofenceRegionProxy alloc] initWithRegion:region pageContext:[self executionContext]];
+    TiGeofenceRegionProxy *newRegion = [[TiGeofenceRegionProxy alloc] _initWithPageContext:[self executionContext] andRegion:region];
     [tiRegions addObject:newRegion];
   }
   return tiRegions;
 }
 
-#pragma mark Utils
+#pragma mark CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+  if ([self _hasListeners:@"error"]) {
+    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [TiGeofenceModule messageFromError:error], @"error",
+                           nil];
+    [self fireEvent:@"error" withObject:event];
+  }
+}
+
+- (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
+{
+  if ([self _hasListeners:@"error"]) {
+    // Passing an array of regions for parity with Android
+    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [TiGeofenceModule messageFromError:error], @"error",
+                           [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
+                           nil];
+    [self fireEvent:@"error" withObject:event];
+  }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
+{
+  if ([self _hasListeners:@"enterregions"]) {
+    // Passing an array of regions for parity with Android
+    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
+                           nil];
+    [self fireEvent:@"enterregions" withObject:event];
+  }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
+{
+  if ([self _hasListeners:@"exitregions"]) {
+    // Passing an array of regions for parity with Android
+    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
+                           nil];
+    [self fireEvent:@"exitregions" withObject:event];
+  }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
+{
+  if ([self _hasListeners:@"monitorregions"]) {
+    // Passing an array of regions for parity with Android
+    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [self arrayWithTiRegionsFromRegion:(CLCircularRegion *)region], @"regions",
+                           nil];
+    [self fireEvent:@"monitorregions" withObject:event];
+  }
+}
+
+#pragma mark Utilities
 
 + (NSString *)messageFromError:(NSError *)error
 {
   if (error == nil || [error localizedDescription] == nil) {
-    return @"Unknown error";
+    return NSLocalizedString(@"Unknown error", nil);
   }
 
   return [error localizedDescription];
@@ -220,7 +189,24 @@
 
 - (NSArray *)arrayWithTiRegionsFromRegion:(CLCircularRegion *)region
 {
-  return @[ [[TiGeofenceRegionProxy alloc] initWithRegion:region pageContext:[self executionContext]] ];
+  return @[ [[TiGeofenceRegionProxy alloc] _initWithPageContext:[self executionContext] andRegion:region] ];
 }
 
+- (CLLocationManager *)locationManager
+{
+  if (_locationManager == nil) {
+    if ([CLLocationManager isMonitoringAvailableForClass:[CLRegion class]]) {
+      // CLLocationManager must be initialized on the UI Thread
+      TiThreadPerformOnMainThread(^{
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.delegate = self;
+      },
+                                  YES);
+    } else {
+      NSLog(@"[WARN] Region Monitoring not available.");
+      return nil;
+    }
+  }
+  return _locationManager;
+}
 @end

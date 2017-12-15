@@ -1,6 +1,6 @@
 /**
  * Appcelerator Titanium Mobile Modules
- * Copyright (c) 2013 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2013-present by Appcelerator, Inc. All Rights Reserved.
  * Proprietary and Confidential - This source code is not for redistribution
  */
 
@@ -10,19 +10,10 @@
 
 @implementation TiGeofenceRegionProxy
 
-@synthesize region = _region;
-
-- (TiGeofenceRegionProxy *)initWithRegion:(CLCircularRegion *)region pageContext:(id<TiEvaluator>)context
+- (id)_initWithPageContext:(id<TiEvaluator>)context andRegion:(CLCircularRegion *)region;
 {
   if (self = [super _initWithPageContext:context]) {
     _region = region;
-  }
-  return self;
-}
-
-- (id)init
-{
-  if (self = [super init]) {
   }
   return self;
 }
@@ -67,46 +58,41 @@
 
 #pragma mark Public APIs
 
-- (id)identifier
+- (NSString *)identifier
 {
   return [_region identifier];
 }
 
-- (id)center
+- (NSDictionary *)center
 {
-  CLLocationCoordinate2D center = [_region center];
-  return [NSDictionary dictionaryWithObjectsAndKeys:
-                           [NSNumber numberWithDouble:center.latitude], @"latitude",
-                       [NSNumber numberWithDouble:center.longitude], @"longitude",
-                       nil];
+  return @{ @"latitude": NUMDOUBLE([_region center].latitude), @"longitude": NUMDOUBLE([_region center].longitude) };
 }
 
-// Radius is in meters
-- (id)radius
+- (NSNumber *)radius
 {
   return NUMDOUBLE([_region radius]);
 }
 
-// Defaults to YES if not set
 - (void)setNotifyOnEntry:(id)value
 {
   [_region setNotifyOnEntry:[TiUtils boolValue:value def:YES]];
 }
 
-// Defaults to YES if not set
 - (void)setNotifyOnExit:(id)value
 {
   [_region setNotifyOnExit:[TiUtils boolValue:value def:YES]];
 }
 
-// iOS only, no equivalent on Android
-- (id)containsCoordinate:(id)args
+- (NSNumber *)containsCoordinate:(id)args
 {
   ENSURE_SINGLE_ARG(args, NSDictionary);
-  CLLocationCoordinate2D coord;
-  coord.latitude = [TiUtils doubleValue:@"latitude" properties:args];
-  coord.longitude = [TiUtils doubleValue:@"longitude" properties:args];
+  CLLocationCoordinate2D coord = CLLocationCoordinate2DMake([TiUtils doubleValue:@"latitude" properties:args], [TiUtils doubleValue:@"longitude" properties:args]);
   return NUMBOOL([_region containsCoordinate:coord]);
+}
+
+- (CLCircularRegion *)region
+{
+  return _region;
 }
 
 @end

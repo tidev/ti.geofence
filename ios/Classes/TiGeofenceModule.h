@@ -1,6 +1,6 @@
 /**
  * Appcelerator Titanium Mobile Modules
- * Copyright (c) 2013 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2013-present by Appcelerator, Inc. All Rights Reserved.
  * Proprietary and Confidential - This source code is not for redistribution
  */
 
@@ -9,7 +9,17 @@
 
 @interface TiGeofenceModule : TiModule <CLLocationManagerDelegate> {
   @private
-  CLLocationManager *locationManager;
+  CLLocationManager *_locationManager;
 }
+
+- (NSNumber *)regionMonitoringAvailable:(id)args;
+
+- (void)startMonitoringForRegions:(id)args;
+
+- (void)stopMonitoringForRegions:(id)args;
+
+- (void)stopMonitoringAllRegions:(id)args;
+
+- (NSArray *)monitoredRegions;
 
 @end
