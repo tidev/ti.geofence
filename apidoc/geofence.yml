@@ -44,7 +44,7 @@ description: |
     for the [enterregions](Modules.Geofence.enterregions) or [exitregions](Modules.Geofence.exitregions) events, respectively.
     For example:
 
-        Geofence.addEventListener('enterregion', function(e) {
+        Geofence.addEventListener('enterregions', function(e) {
             // Display local notification
             for (var i = 0, j = e.regions.length; i < j; i++) {
                 showNotification({
