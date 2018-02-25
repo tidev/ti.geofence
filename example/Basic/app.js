@@ -3,22 +3,9 @@
 // Constants
 // --------------------------------------------------------------------
 
-function isIOS7Plus() {
-    if (Titanium.Platform.name == 'iPhone OS')
-    {
-        var version = Titanium.Platform.version.split('.');
-        var major = parseInt(version[0],10);
- 
-        if (major >= 7) {
-            return true;
-        }
-    }
-    return false;
-}
 var osname = Ti.Platform.osname,
     ANDROID = (osname === 'android'),
     IOS = (osname === 'iphone' || osname === 'ipad'),
-    IOS7PLUS = isIOS7Plus(),
     defaultFontSize = ANDROID ? '16dp' : 14;
 
 var rows = [
@@ -174,9 +161,9 @@ if (ANDROID) {
 
 // Clear app badge when the app is opened
 if (IOS) {
-    Ti.UI.iPhone.appBadge = 0;
+    Ti.UI.iOS.appBadge = 0;
     Ti.App.addEventListener('resume', function() {
-        Ti.UI.iPhone.appBadge = 0;
+        Ti.UI.iOS.appBadge = 0;
     });
 }
 
@@ -240,7 +227,7 @@ var win = Ti.UI.createWindow({
 });
 
 var scrollView =  Ti.UI.createScrollView({
-    top: IOS7PLUS ? 20 : 0,
+    top: 20,
     bottom: '60%',
     width: '100%',
     borderWidth: '2',
@@ -357,8 +344,18 @@ function showNotification(params) {
         });
 
         // Show the number of notifications using the app badge
-        Ti.UI.iPhone.appBadge++;
+        Ti.UI.iOS.appBadge++;
     } else {
         Ti.API.info('Can not show notification on unsupported platform `' + osname + '`');
     }
+}
+
+if (!Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS)) {
+  Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS, function(e) {
+    if (e.success) {
+      alert('Location Permissions ready!');
+    } else {
+      alert('Error requesting location permissions!');
+    }
+  });
 }

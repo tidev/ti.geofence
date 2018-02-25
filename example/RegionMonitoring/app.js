@@ -28,22 +28,9 @@
 // Constants
 // --------------------------------------------------------------------
 
-function isIOS7Plus() {
-    if (Titanium.Platform.name == 'iPhone OS')
-    {
-        var version = Titanium.Platform.version.split('.');
-        var major = parseInt(version[0],10);
- 
-        if (major >= 7) {
-            return true;
-        }
-    }
-    return false;
-}
 var osname = Ti.Platform.osname,
     ANDROID = (osname === 'android'),
     IOS = (osname === 'iphone' || osname === 'ipad'),
-    IOS7PLUS = isIOS7Plus(),
     defaultFontSize = ANDROID ? '16dp' : 14;
 
 // Modules
@@ -79,7 +66,7 @@ var win = Ti.UI.createWindow({
 });
 
 var scrollView =  Ti.UI.createScrollView({
-    top: IOS7PLUS ? 20 : 0,
+    top: 20,
     bottom: '60%',
     width: '100%',
     borderWidth: '2',
@@ -196,51 +183,12 @@ Geofence.addEventListener('removeregions', function(e) {
     onRegionsRemoved = null;
 });
 
-// --------------------------------------------------------------------
-// Geofencing
-// --------------------------------------------------------------------
-
-// How often to pull new regions from the server
-var REFRESH_HOURS = 24,
-    REFRESH_MINUTES = 60,
-    REFRESH_SECONDS = 60,
-    REFRESH_MILLISECONDS = 1000,
-    REFRESH_INTERVAL = REFRESH_HOURS * REFRESH_MINUTES * REFRESH_SECONDS * REFRESH_MILLISECONDS;
-
-// Name of file where data for currently monitored regions is persisted
-var ACTIVE_REGIONS_FILENAME = 'activeRegions.json';
-var activeRegionData = readActiveRegionsDataFromFile();
-var refreshTimer;
-var onRegionsRemoved = null;
-
-// Setup
-Ti.Geolocation.purpose = 'testing'; // Required
-
 // Region Refresh Timer callback
 function refreshRegions() {
     logInApp('refreshRegions @ ' + new Date().toTimeString());
     fetchNewFences();
 }
 
-if ((IOS && Geofence.regionMonitoringAvailable()) ||
-     (ANDROID && Geofence.isGooglePlayServicesAvailable() === Geofence.SUCCESS))  {
-    // On Start: Refresh regions and start timer for next refresh
-    refreshRegions();
-    refreshTimer = setInterval(refreshRegions, REFRESH_INTERVAL);
-    logInApp('Started Region Refresh Timer');
-} else {
-    logInApp('Region Monitoring not available on this device');
-}
-
-// Clear app badge when the app is opened
-if (IOS) {
-    Ti.UI.iPhone.appBadge = 0;
-    Ti.App.addEventListener('resume', function() {
-        Ti.UI.iPhone.appBadge = 0;
-    });
-}
-
-var locationRetries = 1;
 function fetchNewFences(args) {
     args = args || {};
 
@@ -490,10 +438,61 @@ function showNotification(params) {
         });
 
         // Show the number of notifications using the app badge
-        Ti.UI.iPhone.appBadge++;
+        Ti.UI.iOS.appBadge++;
     } else {
         Ti.API.info('Can not show notification on unsupported platform `' + osname + '`');
     }
 }
 
+function startExample() {
+  if ((IOS && Geofence.regionMonitoringAvailable()) ||
+       (ANDROID && Geofence.isGooglePlayServicesAvailable() === Geofence.SUCCESS))  {
+      // On Start: Refresh regions and start timer for next refresh
+      refreshRegions();
+      refreshTimer = setInterval(refreshRegions, REFRESH_INTERVAL);
+      logInApp('Started Region Refresh Timer');
+  } else {
+      logInApp('Region Monitoring not available on this device');
+  }
 
+  // Clear app badge when the app is opened
+  if (IOS) {
+      Ti.UI.iOS.appBadge = 0;
+      Ti.App.addEventListener('resume', function() {
+          Ti.UI.iOS.appBadge = 0;
+      });
+  }  
+}
+
+//// Initialize APP
+
+// --------------------------------------------------------------------
+// Geofencing
+// --------------------------------------------------------------------
+
+// How often to pull new regions from the server
+var REFRESH_HOURS = 24,
+    REFRESH_MINUTES = 60,
+    REFRESH_SECONDS = 60,
+    REFRESH_MILLISECONDS = 1000,
+    REFRESH_INTERVAL = REFRESH_HOURS * REFRESH_MINUTES * REFRESH_SECONDS * REFRESH_MILLISECONDS;
+
+// Name of file where data for currently monitored regions is persisted
+var ACTIVE_REGIONS_FILENAME = 'activeRegions.json';
+var activeRegionData = readActiveRegionsDataFromFile();
+var refreshTimer;
+var onRegionsRemoved = null;
+var locationRetries = 1;
+
+// Check permissions
+if (Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS)) {
+  startExample()
+} else {
+  Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS, function(e) {
+    if (e.success) {
+      startExample();
+    } else {
+      alert('Error requesting location permissions!');
+    }
+  });
+}
