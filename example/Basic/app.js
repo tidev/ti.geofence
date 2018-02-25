@@ -1,4 +1,19 @@
 
+//    Platform notes
+//    --------------
+//    For iOS, add the following permission keys to the <ios> section of the tiapp.xml:
+//
+//    <key>NSLocationWhenInUseUsageDescription</key>
+//		<string>Can we access your location while using the app?</string>
+//    <key>NSLocationAlwaysUsageDescription</key>
+//		<string>Can we always access your location?</string>
+//		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+//		<string>Can we access your location?</string>
+//
+//    All three permissions are required for background monitoring, since users of iOS 11
+//    and later are able to grant permissions incrementally. 
+//    Read more about this in the Ti.Geolocation docs: http://docs.appcelerator.com/platform/latest/#!/api/Titanium.Geolocation.
+
 // --------------------------------------------------------------------
 // Constants
 // --------------------------------------------------------------------
