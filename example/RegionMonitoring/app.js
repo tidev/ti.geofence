@@ -36,6 +36,11 @@ var osname = Ti.Platform.osname,
 // Modules
 var Cloud = require('ti.cloud');
 var Geofence = require('ti.geofence');
+var Playservices = {};
+
+if (ANDROID) {
+  Playservices = require('ti.playservices');
+}
 
 // --------------------------------------------------------------------
 // Tests as Table View Rows
@@ -446,7 +451,7 @@ function showNotification(params) {
 
 function startExample() {
   if ((IOS && Geofence.regionMonitoringAvailable()) ||
-       (ANDROID && Geofence.isGooglePlayServicesAvailable() === Geofence.SUCCESS))  {
+       (ANDROID && Playservices.isGooglePlayServicesAvailable() === Geofence.SUCCESS))  {
       // On Start: Refresh regions and start timer for next refresh
       refreshRegions();
       refreshTimer = setInterval(refreshRegions, REFRESH_INTERVAL);

@@ -19,7 +19,25 @@ description: |
 
     Once you've [installed](#!/guide/Using_a_Module) the module, use `require()` to access it from JavaScript:
 
-        var Geofence = require("ti.geofence");
+        var Geofence = require('ti.geofence');
+
+    ### Location Permissions
+    
+    Please ensure to request proper location permissions before attempting to use geofencing feautures. See
+    [Titanium.Geolocation.hasLocationPermissions(<type>)](Titanium.Geolocation.hasLocationPermissions) and [Titanium.Geolocation.requestLocationPermissions(<type>, <callback>)](Titanium.Geolocation.requestLocationPermissions)
+    for details. Example:
+      
+        if (!Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS)) {
+            Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS, function (e) {
+                if (!e.success) {
+                    alert('Location permissions declined!');
+                    return;
+                }
+                
+                alert('Location permissions ready');
+                // Initialize monitoring here
+            });
+        }
 
     ### Creating and monitoring geofence regions
 
@@ -28,10 +46,10 @@ description: |
 
         var newRegion = Geofence.createRegion({
             center: {
-                latitude:37.389601,
-                longitude:-122.050169
+                latitude: 37.389601,
+                longitude: -122.050169
             },
-            radius:500,
+            radius: 500,
             identifier:'Appcelerator'
         });
 
@@ -45,14 +63,14 @@ description: |
     For example:
 
         Geofence.addEventListener('enterregions', function(e) {
-            // Display local notification
-            for (var i = 0, j = e.regions.length; i < j; i++) {
+            e.regions.forEach(function (region) {
+                // Display local notification
                 showNotification({
                     title: 'ENTER',
-                    body: 'enter - ' + e.regions[i].identifier
+                    body: 'enter - ' + region.identifier
                 });
-            }
-        })
+            });
+        });
 
     The event object passed to the event handler contains a `regions` property that identifies the region(s)
     that were entered or exited. On iOS this property contains an array of [Region](Modules.Geofence.Region) objects;
@@ -64,14 +82,14 @@ description: |
 
     You have a few options for testing geofence monitoring in your application. One approach
     is field testing: travel (drive, walk, etc.) between monitored regions while the application is running.
-    You can also pass mock location data to the application running on a device or simulator.
+    You can also pass mock location data to the application running on a device or Simulator.
 
     Note: The timing and frequency of location events may vary from one environment to another (device, OS version, network availability).
 
     ### Mock locations from the iOS Simulator
 
-    Once the application is running in the simulator, select **Debug** > **Location** in the simulator and
-    select a predefined location or route that you would like to be sent to the simulator. You can
+    Once the application is running in the simulator, select **Debug** > **Location** in the Simulator and
+    select a predefined location or route that you would like to be sent to the Simulator. You can
     also enter a custom location (latitude, longitude).
 
     ### Mock locations using Xcode
@@ -129,10 +147,14 @@ methods:
     description: |
         Possible values include [SUCCESS](Modules.Geofence.SUCCESS), [SERVICE_MISSING](Modules.Geofence.SERVICE_MISSING), [SERVICE_VERSION_UPDATE_REQUIRED](Modules.Geofence.SERVICE_VERSION_UPDATE_REQUIRED), [SERVICE_DISABLED](Modules.Geofence.SERVICE_DISABLED), and [SERVICE_INVALID](Modules.Geofence.SERVICE_INVALID).
         Example:
-
-            var hasGooglePlayServices = Geofence.isGooglePlayServicesAvailable();
+            
+            var Playservices = require('ti.playservices');
+            var hasGooglePlayServices = Playservices.isGooglePlayServicesAvailable();
 
     platforms: [android]
+    deprecated:
+        notes: Use <Modules.PlayServices.isGooglePlayServicesAvailable> in Titanium SDK 7.0.0 and later.
+        removed: "2.0.2"
     returns:
         type: Boolean
 
@@ -223,36 +245,6 @@ properties:
     permission: read-only
     type: Array<Modules.Geofence.Region>
     platforms: [iphone, ipad]
-
-  - name: SUCCESS
-    summary: Returned by [isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable) if the connection to Google Play services was successful.
-    type: Number
-    permission: read-only
-    platforms: [android]
-
-  - name: SERVICE_MISSING
-    summary: Returned by [isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable) if Google Play services is missing on this device.
-    type: Number
-    permission: read-only
-    platforms: [android]
-
-  - name: SERVICE_VERSION_UPDATE_REQUIRED
-    summary: Returned by [isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable) if the installed version of Google Play services is out of date.
-    type: Number
-    permission: read-only
-    platforms: [android]
-
-  - name: SERVICE_DISABLED
-    summary: Returned by [isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable) if the installed version of Google Play services has been disabled on this device.
-    type: Number
-    permission: read-only
-    platforms: [android]
-
-  - name: SERVICE_INVALID
-    summary: Returned by [isGooglePlayServicesAvailable](Modules.Geofence.isGooglePlayServicesAvailable) if the version of the Google Play services installed on this device is not authentic.
-    type: Number
-    permission: read-only
-    platforms: [android]
 
   - name: LOCATION_STATUS_ERROR
     summary: Possible value of the `errorcode` property in the [error](Modules.Geofence.error) event object indicating an unspecified error occurred.

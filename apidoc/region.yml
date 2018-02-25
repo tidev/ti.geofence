@@ -65,14 +65,14 @@ methods:
                     latitude:37.389601,
                     longitude:-122.050169
                 },
-                radius:50,
-                identifier:'Appcelerator'
+                radius: 50,
+                identifier: 'Appcelerator'
             });
 
             // Should be true
-            if(region.containsCoordinate(e.coords)) {
+            if (region.containsCoordinate(e.coords)) {
                 var notification = Ti.App.iOS.scheduleLocalNotification({
-                    alertBody:"Point is within region: " + region.identifier
+                    alertBody: 'Point is within region: ' + region.identifier
                 });
             }
 

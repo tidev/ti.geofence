@@ -133,11 +133,12 @@ if (IOS) {
 
 // Android only methods
 if (ANDROID) {
+    var Playservices = require('ti.playservices');
     var androidRows = [
         {
             title: 'isGooglePlayServicesAvailable() (Android)',
-            onClick: function(){
-                logInApp('isGooglePlayServicesAvailable: ' + Geofence.isGooglePlayServicesAvailable());
+            onClick: function() {
+                logInApp('isGooglePlayServicesAvailable: ' + Playservices.isGooglePlayServicesAvailable());
             }
         },
         {
