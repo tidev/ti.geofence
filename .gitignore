@@ -19,3 +19,4 @@ build.properties
 .idea/
 libs/
 android/dist
+/ios/metadata.json

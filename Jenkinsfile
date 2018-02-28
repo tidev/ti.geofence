@@ -2,7 +2,7 @@
 
 buildModule {
 	// defaults:
-	//nodeVersion = '4.7.3' // Must have version set up on Jenkins master before it can be changed
-	sdkVersion = '7.0.0.GA'
-	//androidAPILevel = '23' // if changed, must install on build nodes
+	// nodeVersion = '8.2.1' // Must have version set up on Jenkins master before it can be changed
+	sdkVersion = '7.2.0.v20180224075947'
+	// androidAPILevel = '23' // if changed, must install on build nodes
 }
