@@ -2,7 +2,7 @@
 name: Modules.Geofence
 summary: Provides a battery-efficient way to monitor a device's movement into or out of a geographic region.
 extends: Titanium.Module
-description: |    
+description: |
     <p class="note">This feature requires a Pro or Enterprise subscription!</p>
 
     You use the Geofence module to define and monitor geofences in your application. A geofence is a circular
@@ -17,7 +17,7 @@ description: |
 
     ## Getting Started
 
-    Once you've [installed](#!/guide/Using_a_Module) the module, use `require()` to access it from JavaScript:
+    Once you have [installed](#!/guide/Using_a_Module) the module, use `require()` to access it from JavaScript:
 
         var Geofence = require('ti.geofence');
 
@@ -109,9 +109,7 @@ description: |
 
         <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
 
-    For more information, see [Testing Using Mock Locations](http://developer.android.com/training/location/location-testing.html) and
-    download the [LocationProvider](http://developer.android.com/shareables/training/LocationProvider.zip) application
-    to send mock locations to your application.
+    For more information, see [Provide Mock Location Data](https://developer.android.com/guide/topics/location/strategies#MockData)
 
     ### Sample applications
 
@@ -338,8 +336,8 @@ events:
         type: [Array<Dictionary>, Array<Modules.Geofence.Region>]
 
   - name: regionstate
-    summary: | 
-        Fired when [requestStateForRegion()](Modules.Geofence.requestStateForRegion) requested a state or there's
+    summary: |
+        Fired when [requestStateForRegion()](Modules.Geofence.requestStateForRegion) requested a state or there is
         a state transition for a monitored region.
     properties:
       - name: region
