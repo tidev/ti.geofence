@@ -151,7 +151,7 @@ methods:
 
     platforms: [android]
     deprecated:
-        notes: Use <Modules.PlayServices.isGooglePlayServicesAvailable> in Titanium SDK 7.0.0 and later.
+        notes: Use [Modules.PlayServices.isGooglePlayServicesAvailable](Modules.PlayServices.isGooglePlayServicesAvailable) in Titanium SDK 7.0.0 and later.
         removed: "3.0.0"
     returns:
         type: Boolean
