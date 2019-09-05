@@ -10,7 +10,6 @@ View the [Using Titanium Modules](http://docs.appcelerator.com/platform/latest/#
 
 ## Documentation
 
-* [Geofence Module API Reference Documentation](http://docs.appcelerator.com/titanium/latest/#!/api/Modules.Geofence)
 * [Geofence Module API Reference Documentation](http://docs.appcelerator.com/platform/latest/#!/api/Modules.Geofence)
 
 ## Author
