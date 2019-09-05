@@ -419,7 +419,7 @@ function showNotification(params) {
       // className : 'com.appcelerator.test.Test7Activity',
 
       // if you use url, you need to make some changes to your tiapp.xml
-      // SEE: http://docs.appcelerator.com/titanium/latest/#!/guide/Android_Notifications-section-29004809_AndroidNotifications-Usingtheurlproperty
+      // SEE: http://docs.appcelerator.com/platform/latest/#!/guide/Android_Notifications-section-29004809_AndroidNotifications-Usingtheurlproperty
       url: 'app.js',
       flags: Ti.Android.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Ti.Android.FLAG_ACTIVITY_SINGLE_TOP
     });
