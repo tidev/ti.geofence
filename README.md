@@ -1,12 +1,4 @@
-# ti.geofence Module [![Build Status](https://magnum.travis-ci.com/appcelerator-modules/ti.geofence.svg?token=C6poLybMz9ERuFX5KZsz)](https://magnum.travis-ci.com/appcelerator-modules/ti.geofence)
-
-## Description
-
-Allows for battery friendly monitoring of geofences on a device.
-
-## Dependencies
-
-This module requires Titanium 3.2.1 or greater.
+@@ -10,7 +10,7 @@ This module requires Titanium 3.2.1 or greater.
 
 ## Getting Started
 
@@ -14,32 +6,10 @@ View the [Using Titanium Modules](http://docs.appcelerator.com/platform/latest/#
 
 ## Accessing the Module
 
-To access this module from JavaScript, require it as follows:
-
-	var Geofence = require("ti.geofence");
-
-The `Geofence` variable is a reference to the Module object.
-
-## Usage
-
-See the example application(s) in the `example` folder of the module.
+@ -26,7 +26,7 @@ See the example application(s) in the `example` folder of the module.
 
 ## Documentation
 
 * [Geofence Module API Reference Documentation](http://docs.appcelerator.com/platform/latest/#!/api/Modules.Geofence)
 
 ## Author
-
-Jon Alter
-
-## Module History
-
-View the [change log](documentation/changelog.md) for this module.
-
-## Feedback and Support
-
-Please direct all questions, feedback, and concerns to [info@appcelerator.com](mailto:info@appcelerator.com?subject=iOS%20Passbook%20Module).
-
-## License
-
-Copyright(c) 2013-2015 by Appcelerator, Inc. All Rights Reserved. Please see the LICENSE file included in the distribution for further details.
