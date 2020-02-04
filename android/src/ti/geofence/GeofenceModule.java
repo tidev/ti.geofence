@@ -358,4 +358,10 @@ public class GeofenceModule extends KrollModule
 			}
 		}
 	}
+
+	@Override
+	public String getApiName()
+	{
+		return "Ti.Geofence";
+	}
 }
