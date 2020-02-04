@@ -32,6 +32,11 @@
   return @"ti.geofence";
 }
 
+- (NSString *)apiName
+{
+  return @"Ti.Geofence";
+}
+
 #pragma mark Lifecycle
 
 - (void)startup
