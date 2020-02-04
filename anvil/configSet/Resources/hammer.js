@@ -2,7 +2,7 @@ var hammer = module.exports;
 var os = Ti.Platform.osname;
 
 function shouldRunOnPlatform(prop) {
-	return !prop.hasOwnProperty('platforms') || prop.platforms[os];
+	return !Object.prototype.hasOwnProperty.call(prop, 'platforms') || prop.platforms[os];
 }
 
 // Suites can be filtered based on platform by adding a 'platform' property to a suite entry. This allows for
