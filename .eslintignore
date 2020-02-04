@@ -9,3 +9,4 @@ ios/dist/
 # These should eventually be linted as well
 android/example/
 ios/example/
+example/
