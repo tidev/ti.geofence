@@ -18,7 +18,13 @@ xcuserdata
 build.properties
 .idea/
 libs/
+
 android/dist
+
 /ios/metadata.json
 
 node_modules/
+
+.gradle/
+
+TESTS-*.xml
