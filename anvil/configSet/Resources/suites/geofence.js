@@ -5,41 +5,25 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-module.exports = new function ()
-{
+module.exports = new function () {
 	var finish;
 	var valueOf;
 	var Geofence;
 
 	var IOS = (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad');
 	var ANDROID = (Ti.Platform.osname === 'android');
-	var IOS7 = (function() {
-		if (Titanium.Platform.name == 'iPhone OS')
-		{
-			var version = Titanium.Platform.version.split(".");
-			var major = parseInt(version[0],10);
 
-			if (major >= 7)
-			{
-				return true;
-			}
-		}
-		return false;
-	})();
-
-	this.init = function (testUtils)
-	{
+	this.init = function (testUtils) {
 		finish = testUtils.finish;
 		valueOf = testUtils.valueOf;
 
 		Geofence = require('ti.geofence');
 	};
 
-	this.name = "ti.geofence";
+	this.name = 'ti.geofence';
 
 	// Test that module is loaded
-	this.testModule = function (testRun)
-	{
+	this.testModule = function (testRun) {
 		// Verify that the module is defined
 		valueOf(testRun, Geofence).shouldBeObject();
 
@@ -47,8 +31,7 @@ module.exports = new function ()
 	};
 
 	// Test that all of the constants are defined
-	this.testConstantsANDROID = function (testRun)
-	{
+	this.testConstantsANDROID = function (testRun) {
 		// Verify that all of the constants are exposed
 		valueOf(testRun, Geofence.SUCCESS).shouldBeNumber();
 		valueOf(testRun, Geofence.SERVICE_MISSING).shouldBeNumber();
@@ -62,10 +45,9 @@ module.exports = new function ()
 
 		finish(testRun);
 	};
-	this.testConstantsANDROID.platforms = { android:1 };
+	this.testConstantsANDROID.platforms = { android: 1 };
 
-	this.testMethods = function (testRun)
-	{
+	this.testMethods = function (testRun) {
 		// Verify that all of the methods are exposed
 		if (IOS) {
 			valueOf(testRun, Geofence.regionMonitoringAvailable).shouldBeFunction();
@@ -83,17 +65,15 @@ module.exports = new function ()
 		finish(testRun);
 	};
 
-	this.testPropertiesIOS = function (testRun)
-	{
+	this.testPropertiesIOS = function (testRun) {
 		// Verify that all of the methods are exposed
 		valueOf(testRun, Geofence.monitoredRegions).shouldBeArray();
 
 		finish(testRun);
 	};
-	this.testPropertiesIOS.platforms = { iphone:1, ipad:1 };
+	this.testPropertiesIOS.platforms = { iphone: 1, ipad: 1 };
 
-	this.testRegionMonitoringAvailable = function (testRun)
-	{
+	this.testRegionMonitoringAvailable = function (testRun) {
 		// If this test fails, geofencing will not function on the current test device.
 		if (IOS) {
 			valueOf(testRun, Geofence.regionMonitoringAvailable()).shouldBeTrue();
@@ -106,17 +86,16 @@ module.exports = new function ()
 		finish(testRun);
 	};
 
-	this.testRegionProxy = function (testRun)
-	{
+	this.testRegionProxy = function (testRun) {
 		var identifier = 'Appcelerator';
 
 		var region = Geofence.createRegion({
-			center: { 
-				latitude:37.38960100,
-				longitude:-122.05016900
+			center: {
+				latitude: 37.38960100,
+				longitude: -122.05016900
 			},
-			radius:30,
-			identifier:identifier
+			radius: 30,
+			identifier: identifier
 		});
 
 		valueOf(testRun, region).shouldBeObject();
@@ -133,24 +112,23 @@ module.exports = new function ()
 		finish(testRun);
 	};
 
-	this.testContainsCoordinateIOS = function (testRun)
-	{
+	this.testContainsCoordinateIOS = function (testRun) {
 		var region = Geofence.createRegion({
-			center: { 
-				latitude:37.38960100,
-				longitude:-122.05016900
+			center: {
+				latitude: 37.38960100,
+				longitude: -122.05016900
 			},
-			radius:500,
-			identifier:'Appcelerator'
+			radius: 500,
+			identifier: 'Appcelerator'
 		});
 
-		var coordInside = { 
-			latitude:37.38960101,
-			longitude:-122.05016901
+		var coordInside = {
+			latitude: 37.38960101,
+			longitude: -122.05016901
 		};
-		var coordOutside = { 
-			latitude:37.40960101,
-			longitude:-122.05016901
+		var coordOutside = {
+			latitude: 37.40960101,
+			longitude: -122.05016901
 		};
 
 		// Verify that containsCoordinate is working
@@ -159,8 +137,8 @@ module.exports = new function ()
 
 		finish(testRun);
 	};
-	this.testContainsCoordinateIOS.platforms = { iphone:1, ipad:1 }; 
+	this.testContainsCoordinateIOS.platforms = { iphone: 1, ipad: 1 };
 
 	// Populate the array of tests based on the 'hammer' convention
 	this.tests = require('hammer').populateTests(this);
-};
+}();

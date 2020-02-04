@@ -6,7 +6,7 @@
  */
 
 var testSuites = [
-    { name: "geofence", platforms: { android:1, iphone:1, ipad:1, mobileweb:0 } }
+	{ name: 'geofence', platforms: { android: 1, iphone: 1, ipad: 1, mobileweb: 0 } }
 ];
 var suites = require('hammer').populateSuites(testSuites);
 
@@ -16,6 +16,6 @@ expected to be an array (should be an empty array at the very least in cases whe
 the suites argument is based on platform type and may result in no valid suites being added to the
 argument)
 */
-var init = require("init");
+var init = require('init');
 init.setSuites(suites);
 init.start();
