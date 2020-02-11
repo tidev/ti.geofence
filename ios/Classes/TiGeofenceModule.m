@@ -32,6 +32,11 @@
   return @"ti.geofence";
 }
 
+- (NSString *)apiName
+{
+  return @"Ti.Geofence";
+}
+
 #pragma mark Lifecycle
 
 - (void)startup
@@ -67,18 +72,20 @@
   if ([args isKindOfClass:[NSArray class]]) {
     ENSURE_ARRAY_OF_TI_REGIONS(args);
     // CLLocationManager methods must be called on the UI thread
-    TiThreadPerformOnMainThread(^{
-      for (id region in args) {
-        ENSURE_TYPE(region, TiGeofenceRegionProxy);
-        [[self locationManager] startMonitoringForRegion:[(TiGeofenceRegionProxy *)region region]];
-      }
-    },
+    TiThreadPerformOnMainThread(
+        ^{
+          for (id region in args) {
+            ENSURE_TYPE(region, TiGeofenceRegionProxy);
+            [[self locationManager] startMonitoringForRegion:[(TiGeofenceRegionProxy *)region region]];
+          }
+        },
         NO);
   } else {
     ENSURE_TYPE(args, TiGeofenceRegionProxy);
-    TiThreadPerformOnMainThread(^{
-      [[self locationManager] startMonitoringForRegion:[(TiGeofenceRegionProxy *)args region]];
-    },
+    TiThreadPerformOnMainThread(
+        ^{
+          [[self locationManager] startMonitoringForRegion:[(TiGeofenceRegionProxy *)args region]];
+        },
         NO);
   }
 }
@@ -90,18 +97,20 @@
   if ([args isKindOfClass:[NSArray class]]) {
     ENSURE_ARRAY_OF_TI_REGIONS(args);
     // CLLocationManager methods must be called on the UI thread
-    TiThreadPerformOnMainThread(^{
-      for (id region in args) {
-        ENSURE_TYPE(region, TiGeofenceRegionProxy);
-        [[self locationManager] stopMonitoringForRegion:[(TiGeofenceRegionProxy *)region region]];
-      }
-    },
+    TiThreadPerformOnMainThread(
+        ^{
+          for (id region in args) {
+            ENSURE_TYPE(region, TiGeofenceRegionProxy);
+            [[self locationManager] stopMonitoringForRegion:[(TiGeofenceRegionProxy *)region region]];
+          }
+        },
         NO);
   } else {
     ENSURE_TYPE(args, TiGeofenceRegionProxy);
-    TiThreadPerformOnMainThread(^{
-      [[self locationManager] stopMonitoringForRegion:[(TiGeofenceRegionProxy *)args region]];
-    },
+    TiThreadPerformOnMainThread(
+        ^{
+          [[self locationManager] stopMonitoringForRegion:[(TiGeofenceRegionProxy *)args region]];
+        },
         NO);
   }
 }
@@ -212,10 +221,11 @@
   if (_locationManager == nil) {
     if ([CLLocationManager isMonitoringAvailableForClass:[CLRegion class]]) {
       // CLLocationManager must be initialized on the UI Thread
-      TiThreadPerformOnMainThread(^{
-        _locationManager = [[CLLocationManager alloc] init];
-        _locationManager.delegate = self;
-      },
+      TiThreadPerformOnMainThread(
+          ^{
+            _locationManager = [[CLLocationManager alloc] init];
+            _locationManager.delegate = self;
+          },
           YES);
     } else {
       NSLog(@"[WARN] Region Monitoring not available.");

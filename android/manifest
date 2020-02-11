@@ -2,9 +2,9 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 3.0.0
+version: 4.0.0
 apiversion: 4
-architectures: arm64-v8a armeabi-v7a x86
+architectures: arm64-v8a armeabi-v7a x86 x86_64
 description: Monitoring geo regions
 author: Jon Alter
 license: Appcelerator Commercial License
@@ -16,4 +16,4 @@ name: geofence
 moduleid: ti.geofence
 guid: a2ed656c-026c-461e-bc0d-95e745ab10ae
 platform: android
-minsdk: 7.0.0
+minsdk: 9.0.0

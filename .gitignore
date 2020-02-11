@@ -18,5 +18,15 @@ xcuserdata
 build.properties
 .idea/
 libs/
+
 android/dist
-/ios/metadata.json
+
+ios/metadata.json
+ios/dist/
+ios/titanium.xcconfig.bak
+
+node_modules/
+
+.gradle/
+
+TESTS-*.xml

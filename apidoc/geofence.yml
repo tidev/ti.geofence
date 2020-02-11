@@ -121,7 +121,6 @@ since: "3.1.3"
 platforms: [android, iphone, ipad]
 
 methods:
-
   - name: regionMonitoringAvailable
     summary: Returns a boolean that indicates if region monitoring is supported on the current device.
     description: |
@@ -152,6 +151,7 @@ methods:
     platforms: [android]
     deprecated:
         notes: Use [Modules.PlayServices.isGooglePlayServicesAvailable](Modules.PlayServices.isGooglePlayServicesAvailable) in Titanium SDK 7.0.0 and later.
+        since: "3.0.0"
         removed: "3.0.0"
     returns:
         type: Boolean
@@ -232,7 +232,6 @@ methods:
             Geofence.stopMonitoringAllRegions();
 
 properties:
-
   - name: monitoredRegions
     summary: An array of the regions currently being monitored for the current application.
     description: |
@@ -293,7 +292,6 @@ properties:
     since: "7.1.0"
 
 events:
-
   - name: error
     summary: Fired when there is an error, or monitoring failed for a region.
     properties:
