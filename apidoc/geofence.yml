@@ -19,7 +19,9 @@ description: |
 
     Once you have [installed](#!/guide/Using_a_Module) the module, use `require()` to access it from JavaScript:
 
-        var Geofence = require('ti.geofence');
+    ``` javascript
+    var Geofence = require('ti.geofence');
+    ```
 
     ### Location Permissions
     
@@ -27,50 +29,58 @@ description: |
     [Titanium.Geolocation.hasLocationPermissions(<type>)](Titanium.Geolocation.hasLocationPermissions) and [Titanium.Geolocation.requestLocationPermissions(<type>, <callback>)](Titanium.Geolocation.requestLocationPermissions)
     for details. Example:
       
-        if (!Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS)) {
-            Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS, function (e) {
-                if (!e.success) {
-                    alert('Location permissions declined!');
-                    return;
-                }
-                
-                alert('Location permissions ready');
-                // Initialize monitoring here
-            });
-        }
+    ``` javascript
+    if (!Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS)) {
+        Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS, function (e) {
+            if (!e.success) {
+                alert('Location permissions declined!');
+                return;
+            }
+            
+            alert('Location permissions ready');
+            // Initialize monitoring here
+        });
+    }
+    ```
 
     ### Creating and monitoring geofence regions
 
     You use the [Geofence.createRegion()](Modules.Geofence.createRegion) method to define a [Region](Modules.Geofence.Region) object.
     A geofence is a circular area defined by a point (latitude and longitude) and a radius (in meters).
 
-        var newRegion = Geofence.createRegion({
-            center: {
-                latitude: 37.389601,
-                longitude: -122.050169
-            },
-            radius: 500,
-            identifier:'Appcelerator'
-        });
+    ``` javascript
+    var newRegion = Geofence.createRegion({
+        center: {
+            latitude: 37.389601,
+            longitude: -122.050169
+        },
+        radius: 500,
+        identifier:'Appcelerator'
+    });
+    ```
 
     To start monitoring a region, call the [Geofence.startMonitoringForRegions()](Modules.Geofence.startMonitoringForRegions) method, passing it the
     region or regions you want to monitor.
 
-        Geofence.startMonitoringForRegions([region1, region2]);
+    ``` javascript
+    Geofence.startMonitoringForRegions([region1, region2]);
+    ```
 
     To be notified when the device moves into or out of a geofence region, create an event listener
     for the [enterregions](Modules.Geofence.enterregions) or [exitregions](Modules.Geofence.exitregions) events, respectively.
     For example:
 
-        Geofence.addEventListener('enterregions', function(e) {
-            e.regions.forEach(function (region) {
-                // Display local notification
-                showNotification({
-                    title: 'ENTER',
-                    body: 'enter - ' + region.identifier
-                });
+    ``` javascript
+    Geofence.addEventListener('enterregions', function(e) {
+        e.regions.forEach(function (region) {
+            // Display local notification
+            showNotification({
+                title: 'ENTER',
+                body: 'enter - ' + region.identifier
             });
         });
+    });
+    ```
 
     The event object passed to the event handler contains a `regions` property that identifies the region(s)
     that were entered or exited. On iOS this property contains an array of [Region](Modules.Geofence.Region) objects;
@@ -107,7 +117,9 @@ description: |
 
     Add the following to your `tiapp.xml`.
 
-        <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    ``` xml
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    ```
 
     For more information, see [Provide Mock Location Data](https://developer.android.com/guide/topics/location/strategies#MockData)
 
@@ -115,20 +127,17 @@ description: |
 
     The module ZIP file contains two Geofence sample applications (**examples/Basic** and **examples/RegionMonitoring**) 
     and a GPX file (**examples/MockLocationData**) for mocking location data in Xcode.
-
-
 since: "3.1.3"
 platforms: [android, iphone, ipad]
-
 methods:
   - name: regionMonitoringAvailable
     summary: Returns a boolean that indicates if region monitoring is supported on the current device.
     description: |
-
         Example:
 
-            var canMonitor = Geofence.regionMonitoringAvailable();
-
+        ``` javascript
+        var canMonitor = Geofence.regionMonitoringAvailable();
+        ```
     platforms: [iphone, ipad]
     returns:
         type: Boolean
@@ -145,9 +154,10 @@ methods:
         Possible values include [SUCCESS](Modules.Geofence.SUCCESS), [SERVICE_MISSING](Modules.Geofence.SERVICE_MISSING), [SERVICE_VERSION_UPDATE_REQUIRED](Modules.Geofence.SERVICE_VERSION_UPDATE_REQUIRED), [SERVICE_DISABLED](Modules.Geofence.SERVICE_DISABLED), and [SERVICE_INVALID](Modules.Geofence.SERVICE_INVALID).
         Example:
             
-            var Playservices = require('ti.playservices');
-            var hasGooglePlayServices = Playservices.isGooglePlayServicesAvailable();
-
+        ``` javascript
+        var Playservices = require('ti.playservices');
+        var hasGooglePlayServices = Playservices.isGooglePlayServicesAvailable();
+        ```
     platforms: [android]
     deprecated:
         notes: Use [Modules.PlayServices.isGooglePlayServicesAvailable](Modules.PlayServices.isGooglePlayServicesAvailable) in Titanium SDK 7.0.0 and later.
@@ -161,14 +171,16 @@ methods:
     description: |
         Example:
 
-            var region = Geofence.createRegion({
-                center: {
-                    latitude:37.38960100,
-                    longitude:-122.05016900
-                },
-                radius:30,
-                identifier:'Appcelerator'
-            });
+        ``` javascript
+        var region = Geofence.createRegion({
+            center: {
+                latitude:37.38960100,
+                longitude:-122.05016900
+            },
+            radius:30,
+            identifier:'Appcelerator'
+        });
+        ```
     returns:
         type: Modules.Geofence.Region    
     parameters:
@@ -190,17 +202,18 @@ methods:
 
         Each platform limits the number of regions that can be monitored at one time. On iOS this limit is 20 regions, 
         and 100 regions on Android. The following example creates a new Region object and then starts monitoring it.
-            
-            var region1 = Geofence.createRegion({
-                center: {
-                    latitude:37.389601,
-                    longitude:-122.050169
-                },
-                radius:500,
-                identifier:'Appcelerator'
-            });
-            Geofence.startMonitoringForRegions(region1);
 
+        ``` javascript
+        var region1 = Geofence.createRegion({
+            center: {
+                latitude:37.389601,
+                longitude:-122.050169
+            },
+            radius:500,
+            identifier:'Appcelerator'
+        });
+        Geofence.startMonitoringForRegions(region1);
+        ```
     parameters:
       - name: Region
         summary: Either an array of [Region](Modules.Geofence.Region) objects or a single [Region](Modules.Geofence.Region) object.
@@ -214,13 +227,13 @@ methods:
 
         This method is asynchronous on Android. The `removeregions` event will fire on completion.
 
-            Geofence.stopMonitoringForRegions([region, region1]);
-
+        ``` javascript
+        Geofence.stopMonitoringForRegions([region, region1]);
+        ```
     parameters:
       - name: Region
         summary: Either an array of [Region](Modules.Geofence.Region) objects or a single [Region](Modules.Geofence.Region) object.
         type: [Array<Modules.Geofence.Region>, Modules.Geofence.Region]
-
 
   - name: stopMonitoringAllRegions
     summary: Stops monitoring all of the regions that are currently being monitored.
@@ -229,16 +242,18 @@ methods:
 
         Example:
 
-            Geofence.stopMonitoringAllRegions();
-
+        ``` javascript
+        Geofence.stopMonitoringAllRegions();
+        ```
 properties:
   - name: monitoredRegions
     summary: An array of the regions currently being monitored for the current application.
     description: |
         Example:
 
-            var regions = Geofence.monitoredRegions;
-
+        ``` javascript
+        var regions = Geofence.monitoredRegions;
+        ```
     permission: read-only
     type: Array<Modules.Geofence.Region>
     platforms: [iphone, ipad]
