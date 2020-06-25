@@ -26,7 +26,7 @@ description: |
     ### Location Permissions
     
     Please ensure to request proper location permissions before attempting to use geofencing feautures. See
-    [Titanium.Geolocation.hasLocationPermissions(<type>)](Titanium.Geolocation.hasLocationPermissions) and [Titanium.Geolocation.requestLocationPermissions(<type>, <callback>)](Titanium.Geolocation.requestLocationPermissions)
+    [Titanium.Geolocation.hasLocationPermissions(type)](Titanium.Geolocation.hasLocationPermissions) and [Titanium.Geolocation.requestLocationPermissions(type, callback)](Titanium.Geolocation.requestLocationPermissions)
     for details. Example:
       
     ``` javascript
@@ -36,7 +36,7 @@ description: |
                 alert('Location permissions declined!');
                 return;
             }
-            
+
             alert('Location permissions ready');
             // Initialize monitoring here
         });
@@ -55,7 +55,7 @@ description: |
             longitude: -122.050169
         },
         radius: 500,
-        identifier:'Appcelerator'
+        identifier: 'Appcelerator'
     });
     ```
 
@@ -71,7 +71,7 @@ description: |
     For example:
 
     ``` javascript
-    Geofence.addEventListener('enterregions', function(e) {
+    Geofence.addEventListener('enterregions', function (e) {
         e.regions.forEach(function (region) {
             // Display local notification
             showNotification({
@@ -174,11 +174,11 @@ methods:
         ``` javascript
         var region = Geofence.createRegion({
             center: {
-                latitude:37.38960100,
-                longitude:-122.05016900
+                latitude: 37.38960100,
+                longitude: -122.05016900
             },
-            radius:30,
-            identifier:'Appcelerator'
+            radius: 30,
+            identifier: 'Appcelerator'
         });
         ```
     returns:
@@ -206,11 +206,11 @@ methods:
         ``` javascript
         var region1 = Geofence.createRegion({
             center: {
-                latitude:37.389601,
-                longitude:-122.050169
+                latitude: 37.389601,
+                longitude: -122.050169
             },
-            radius:500,
-            identifier:'Appcelerator'
+            radius: 500,
+            identifier: 'Appcelerator'
         });
         Geofence.startMonitoringForRegions(region1);
         ```
