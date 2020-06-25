@@ -7,7 +7,6 @@ description: |
     Use the [Geofence.createRegion](Modules.Geofence.createRegion) method to create a region.
 since: "3.1.3"
 platforms: [android, iphone, ipad]
-
 properties:
   - name: identifier
     summary: The unique identifier of the region.
@@ -20,12 +19,10 @@ properties:
           
           * `latitude`: The latitude of the point to be tested
           * `longitude`: The longitude of the point to be tested
-
     type: Dictionary
 
   - name: radius
     summary: The radius of the region to monitor in meters.
-    description: |
     type: Number
 
   - name: notifyOnEntry
@@ -44,7 +41,6 @@ properties:
         If `false`, no event is generated. Default is `true`.
 
         This property can only be set when calling [Geofence.createRegion()](Modules.Geofence.createRegion).
-
     type: Boolean
 
 methods:
@@ -60,22 +56,23 @@ methods:
         For example, the following code creates a new Region and then immediately checks if the device
         is located in the newly created region and, if so, displays a notification.
 
-            var region = Geofence.createRegion({
-                center: { 
-                    latitude:37.389601,
-                    longitude:-122.050169
-                },
-                radius: 50,
-                identifier: 'Appcelerator'
+        ``` javascript
+        var region = Geofence.createRegion({
+            center: { 
+                latitude:37.389601,
+                longitude:-122.050169
+            },
+            radius: 50,
+            identifier: 'Appcelerator'
+        });
+
+        // Should be true
+        if (region.containsCoordinate(e.coords)) {
+            var notification = Ti.App.iOS.scheduleLocalNotification({
+                alertBody: 'Point is within region: ' + region.identifier
             });
-
-            // Should be true
-            if (region.containsCoordinate(e.coords)) {
-                var notification = Ti.App.iOS.scheduleLocalNotification({
-                    alertBody: 'Point is within region: ' + region.identifier
-                });
-            }
-
+        }
+        ```
     platforms: [ipad, iphone]
     parameters:
       - name: point
