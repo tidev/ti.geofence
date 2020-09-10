@@ -1,6 +1,6 @@
 {
   "name": "@titanium-sdk/ti.geofence",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "private": true,
   "description": "Allows for battery friendly monitoring of geofences on a device.",
   "scripts": {
