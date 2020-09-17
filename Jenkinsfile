@@ -7,4 +7,5 @@ buildModule {
 	sdkVersion = '9.2.0.v20200914000026'
 	npmPublish = false
 	// androidAPILevel = '23' // if changed, must install on build nodes
+	iosLabels = 'osx && xcode-12'
 }
