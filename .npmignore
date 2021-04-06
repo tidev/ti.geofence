@@ -9,3 +9,5 @@ test/
 apidoc/
 Jenkinsfile
 dangerfile.js
+.github/
+.husky/
