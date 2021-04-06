@@ -1,4 +1,6 @@
-@@ -10,7 +10,7 @@ This module requires Titanium 3.2.1 or greater.
+# Titanium Geofence Module
+
+This module requires Titanium 9.2.0 or greater.
 
 ## Getting Started
 
@@ -6,10 +8,10 @@ View the [Using Titanium Modules](http://docs.appcelerator.com/platform/latest/#
 
 ## Accessing the Module
 
-@ -26,7 +26,7 @@ See the example application(s) in the `example` folder of the module.
+See the example application(s) in the `example` folder of the module.
 
 ## Documentation
 
-* [Geofence Module API Reference Documentation](http://docs.appcelerator.com/platform/latest/#!/api/Modules.Geofence)
+* [Geofence Module API Reference Documentation](https://titaniumsdk.com/api/modules/geofence.html)
 
 ## Author
