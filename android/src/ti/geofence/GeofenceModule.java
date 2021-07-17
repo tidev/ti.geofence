@@ -15,7 +15,7 @@ import android.content.IntentFilter;
 import android.text.TextUtils;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationStatusCodes;
 import java.util.ArrayList;
@@ -120,7 +120,8 @@ public class GeofenceModule extends KrollModule
 	@Kroll.method
 	public int isGooglePlayServicesAvailable()
 	{
-		return GooglePlayServicesUtil.isGooglePlayServicesAvailable(TiApplication.getAppRootOrCurrentActivity());
+		Context context = TiApplication.getAppRootOrCurrentActivity();
+		return GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context);
 	}
 
 	@Kroll.method
@@ -192,8 +193,7 @@ public class GeofenceModule extends KrollModule
 	{
 
 		// Check that Google Play services is available
-		int resultCode =
-			GooglePlayServicesUtil.isGooglePlayServicesAvailable(TiApplication.getAppRootOrCurrentActivity());
+		int resultCode = isGooglePlayServicesAvailable();
 
 		// If Google Play services is available
 		if (ConnectionResult.SUCCESS == resultCode) {
@@ -238,7 +238,7 @@ public class GeofenceModule extends KrollModule
 		// MOD-1639: Creating a new PendingIntent each time it is needed.
 		// Keeping the PendingIntent in a variable was causing problems.
 		return PendingIntent.getService(TiApplication.getAppRootOrCurrentActivity(), 0, intent,
-										PendingIntent.FLAG_UPDATE_CURRENT);
+										PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 	}
 
 	/**
