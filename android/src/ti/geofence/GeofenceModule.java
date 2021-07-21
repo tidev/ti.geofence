@@ -238,7 +238,7 @@ public class GeofenceModule extends KrollModule
 		// MOD-1639: Creating a new PendingIntent each time it is needed.
 		// Keeping the PendingIntent in a variable was causing problems.
 		return PendingIntent.getService(TiApplication.getAppRootOrCurrentActivity(), 0, intent,
-										PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+										PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
 	}
 
 	/**
