@@ -290,9 +290,12 @@ textLog.addEventListener('postlayout', function () {
 	var sHeight = scrollViewHeight,
 		tHeight = textLog.rect.height;
 	if (tHeight > sHeight) {
-		scrollView.setContentOffset({
-			x: 0, y: tHeight - sHeight
-		}, false);
+		const point = { x: 0, y: tHeight - sHeight };
+		if (IOS) {
+			scrollView.setContentOffset(point, false);
+		} else {
+			scrollView.contentOffset = point;
+		}
 	}
 });
 
