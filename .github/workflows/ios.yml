@@ -1,5 +1,5 @@
 name: iOS Build
-on: 
+on:
   push:
     paths-ignore:
     - 'android/**'
@@ -9,13 +9,13 @@ on:
     - 'android/**'
     - 'apidoc/**'
   workflow_dispatch:
-  
+
 jobs:
   ios:
     runs-on: macos-latest
     name: iOS
     env:
-      SDK_VERSION: 10.0.2.GA
+      SDK_VERSION: 11.1.1.GA
       MODULE_ID: ti.geofence
     steps:
     - uses: actions/checkout@v2
@@ -23,7 +23,7 @@ jobs:
     - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
+        node-version: '16.x'
 
     - name: Cache Node.js modules
       id: node-cache
