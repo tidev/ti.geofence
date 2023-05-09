@@ -12,7 +12,7 @@ module.exports = config => {
 			'karma-*'
 		],
 		titanium: {
-			sdkVersion: config.sdkVersion || '11.1.1.GA'
+			sdkVersion: config.sdkVersion || '12.1.1.GA'
 		},
 		customLaunchers: {
 			android: {
@@ -37,7 +37,7 @@ module.exports = config => {
 		singleRun: true,
 		retryLimit: 0,
 		concurrency: 1,
-		captureTimeout: 1200000,
+		captureTimeout: 2000000,
 		logLevel: config.LOG_DEBUG
 	});
 };
