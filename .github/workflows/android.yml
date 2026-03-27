@@ -1,5 +1,5 @@
 name: Android Build
-on: 
+on:
   push:
     paths-ignore:
     - 'ios/**'
@@ -17,7 +17,7 @@ jobs:
     env:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       USE_CCACHE: 1
-      SDK_VERSION: 10.1.0.v20210820083427
+      SDK_VERSION: 12.1.1.GA
       MODULE_ID: ti.geofence
     steps:
     - uses: actions/checkout@v2
@@ -28,10 +28,10 @@ jobs:
         distribution: 'adopt'
         java-version: '11'
 
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v3
       with:
-        node-version: '12.x'
+        node-version: '16.x'
 
     - name: Cache Node.js modules
       id: node-cache
@@ -66,6 +66,10 @@ jobs:
 # TODO: Cache sdk install
     - run: ti sdk install ${{ env.SDK_VERSION }} --force
       name: Install Titanium SDK
+
+    - name: Set up Homebrew
+      id: set-up-homebrew
+      uses: Homebrew/actions/setup-homebrew@master
 
     - name: Install ccache
       run: brew install ccache
