@@ -7,7 +7,7 @@ apiversion: 2
 architectures: x86_64 arm64
 description: Monitoring geo regions
 author: Jon Alter, Hans Knoechel
-license: Appcelerator Commercial License 
+license: Apache-2.0
 copyright: Copyright (c) 2013-2017 by Appcelerator, Inc.
 
 
